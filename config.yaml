@@ -1,0 +1,126 @@
+baseURL: https://nobledynamic.github.io
+languageCode: en-us
+title: Noble Dynamic
+theme: hugo-fresh
+googleAnalytics: # Put in your tracking code without quotes like this: UA-XXXXXX...
+# Disables warnings
+disableKinds:
+- taxonomy
+- taxonomyTerm
+markup:
+  goldmark:
+    renderer:
+      unsafe: true # Allows you to write raw html in your md files
+
+params:
+  # Open graph allows easy social sharing. If you don't want it you can set it to false or just delete the variable
+  openGraph: true
+  # Used as meta data; describe your site to make Google Bots happy
+  description: 
+  # Preloader ensures images are loaded before displaying to the user. If you don't want it uncomment to set it to false
+  # preloader: false
+  navbarlogo:
+  # Logo (from static/images/logos/___)
+    image: logos/noble dynamic logo.svg
+    link: /
+  font:
+    name: "Open Sans"
+    sizes: [400,600]
+  hero:
+    # Main hero title
+    title: Data Simplicity
+    # Hero subtitle (optional)
+    subtitle: Get real value and actionable insight out of your data. No matter what type or where, we can help.
+    # Button text
+    buttontext: Contact us
+    # Where the main hero button links to
+    buttonlink: "/#section-contact"
+    # Hero image (from static/images/___)
+    image: illustrations/worker.svg
+    # Footer logos (from static/images/logos/clients/___.svg)
+    clientlogos: false
+  # Customizable navbar. For a dropdown, add a "sublinks" list.
+  navbar:
+  - title: Services
+    url: /#section1
+  # - title: Case studies
+  #   url: /
+  - title: About
+    url: /#section-about
+  - title: Contact us
+    url: /#section-contact
+    button: true
+  sidebar: false
+  section1:
+    title: Data is everywhere
+    subtitle: We make understanding it easy
+    tiles:
+    - title: Data Science
+      icon: data-science
+      text: Advanced analytics and machine learning isn't just for the big players. Gain a competitive advantage by leveraging data science techniques to automatically find patterns, anomalies and segment your data.
+    - title: Data Engineering
+      icon: data-engineering
+      text: The right data isn't always available, up to date, clean, or usable. Streamline and enrich your data with web scraping, API integrations, synthetic data generation and feature engineering.
+    - title: Computer Vision
+      icon: computer-vision
+      text: Drones, satellites, and mobile devices are affordable, scalable solutions combined with machine learning and computer vision for image segmentation, object detection and classification.
+    - title: Dashboards and Visualisation
+      icon: visualisation
+      text: Get actionable insight from your data investment with clear and simple visualisations and dashboards. Specialists in the Microsoft stack and bespoke, cloud enabled, dashboards.
+    - title: Data Strategy
+      icon: strategy
+      text: A clear data strategy is critical for successful digital transformation. Benefit from years of hands-on experience with developing data and product strategy, and delivery at scale.
+    - title: Cloud
+      icon: cloud
+      text: Harness the scalability, security, and cost savings of the cloud. Experts in deploying AI services, serverless infrastructure, ML pipelines and databases in AWS, Azure and GCP.
+  sectioncontact: true
+  sectionabout:
+    title: About us
+    subtitle: Experts with 20+ years of experience
+    features:
+    - title: Roger Noble
+      text: AI, Data and Software expert who is focused on creating new and innovative technologies that provide equitable access to data.
+      # Logo (from static/images/people/___)
+      image: people/RogerNoble.jpg
+      link: https://www.linkedin.com/in/roger-noble/
+      # Icons are from Font Awesome
+      icon: linkedin
+  footer:
+    # Logo (from /images/logos/___)
+    logo: noble dynamic icon white.svg
+    # Social Media Title
+    socialmediatitle: Follow Us
+    # # Social media links (GitHub, Twitter, etc.). All are optional.
+    socialmedia:
+    - link: https://github.com/nobledynamic
+      # Icons are from Font Awesome
+      icon: github
+    bulmalogo: false
+    quicklinks:
+      column1:
+        title: 
+        links:
+        - text: Terms & Conditions
+          link: /terms-conditions
+        - text: Privacy
+          link: /privacy-policy
+        - text: Disclaimer
+          link: /disclaimer
+      column2:
+        title: ""
+        links:
+        # - text: Get started
+        #   link: /
+        # - text: User guides
+        #   link: /
+        # - text: Admin guide
+        #   link: /
+        # - text: Developers
+        #   link: /
+      column3:
+        title: ""
+        links:
+        # - text: Latest news
+        #   link: /blog/first
+        # - text: Tech articles
+        #   link: /blog/second

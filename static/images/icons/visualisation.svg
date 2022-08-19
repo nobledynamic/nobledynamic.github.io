@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="16.404167mm"
+   height="16.404167mm"
+   viewBox="0 0 16.404167 16.404167"
+   version="1.1"
+   id="svg31504"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   sodipodi:docname="visualisation.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview31506"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.69130191"
+     inkscape:cx="-394.90705"
+     inkscape:cy="-104.15131"
+     inkscape:window-width="1920"
+     inkscape:window-height="974"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs31501" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-187.75668,-175.89199)">
+    <g
+       id="g20359"
+       transform="matrix(0.26458333,0,0,0.26458333,77.425431,94.13574)">
+	<g
+   id="g20261">
+		<path
+   class="st0"
+   d="m 474,371 h -52 c -2.76,0 -5,-2.24 -5,-5 v -5 h 18 v 2 h -16 v 3 c 0,1.65 1.35,3 3,3 h 52 c 1.65,0 3,-1.35 3,-3 v -3 h -16 v -2 h 18 v 5 c 0,2.76 -2.24,5 -5,5 z"
+   id="path20259"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20265">
+		<path
+   class="st0"
+   d="m 456,367 h -16 c -1.65,0 -3,-1.35 -3,-3 v -3 h 22 v 3 c 0,1.65 -1.35,3 -3,3 z m -17,-4 v 1 c 0,0.55 0.45,1 1,1 h 16 c 0.55,0 1,-0.45 1,-1 v -1 z"
+   id="path20263"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20269">
+		<rect
+   x="423"
+   y="365"
+   class="st0"
+   width="2"
+   height="2"
+   id="rect20267"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20273">
+		<rect
+   x="427"
+   y="365"
+   class="st0"
+   width="2"
+   height="2"
+   id="rect20271"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20277">
+		<rect
+   x="431"
+   y="365"
+   class="st0"
+   width="2"
+   height="2"
+   id="rect20275"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20281">
+		<path
+   class="st0"
+   d="m 477,359 h -2 v -36 c 0,-1.65 -1.35,-3 -3,-3 h -3 v -2 h 3 c 2.76,0 5,2.24 5,5 z"
+   id="path20279"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20285">
+		<path
+   class="st0"
+   d="m 421,359 h -2 v -36 c 0,-2.76 2.24,-5 5,-5 h 3 v 2 h -3 c -1.65,0 -3,1.35 -3,3 z"
+   id="path20283"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20289">
+		<path
+   class="st0"
+   d="m 473,359 h -2 v -35 h -2 v -2 h 2 c 1.1,0 2,0.9 2,2 z"
+   id="path20287"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20293">
+		<path
+   class="st0"
+   d="m 425,359 h -2 v -35 c 0,-1.1 0.9,-2 2,-2 h 2 v 2 h -2 z"
+   id="path20291"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20297">
+		<path
+   class="st0"
+   d="m 467,336 h -38 v -27 h 38 z m -36,-2 h 34 v -23 h -34 z"
+   id="path20295"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20301">
+		<path
+   class="st0"
+   d="m 469,359 h -16 v -18 h 16 z m -14,-2 h 12 v -14 h -12 z"
+   id="path20299"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20305">
+		<path
+   class="st0"
+   d="m 430,358 c -1.65,0 -3,-1.35 -3,-3 0,-1.65 1.35,-3 3,-3 1.65,0 3,1.35 3,3 0,1.65 -1.35,3 -3,3 z m 0,-4 c -0.55,0 -1,0.45 -1,1 0,0.55 0.45,1 1,1 0.55,0 1,-0.45 1,-1 0,-0.55 -0.45,-1 -1,-1 z"
+   id="path20303"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20309">
+		<path
+   class="st0"
+   d="m 443,356 c -1.65,0 -3,-1.35 -3,-3 0,-1.65 1.35,-3 3,-3 1.65,0 3,1.35 3,3 0,1.65 -1.35,3 -3,3 z m 0,-4 c -0.55,0 -1,0.45 -1,1 0,0.55 0.45,1 1,1 0.55,0 1,-0.45 1,-1 0,-0.55 -0.45,-1 -1,-1 z"
+   id="path20307"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20313">
+		<path
+   class="st0"
+   d="m 434,348 c -1.65,0 -3,-1.35 -3,-3 0,-1.65 1.35,-3 3,-3 1.65,0 3,1.35 3,3 0,1.65 -1.35,3 -3,3 z m 0,-4 c -0.55,0 -1,0.45 -1,1 0,0.55 0.45,1 1,1 0.55,0 1,-0.45 1,-1 0,-0.55 -0.45,-1 -1,-1 z"
+   id="path20311"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20317">
+		<path
+   class="st0"
+   d="m 448,344 c -1.65,0 -3,-1.35 -3,-3 0,-1.65 1.35,-3 3,-3 1.65,0 3,1.35 3,3 0,1.65 -1.35,3 -3,3 z m 0,-4 c -0.55,0 -1,0.45 -1,1 0,0.55 0.45,1 1,1 0.55,0 1,-0.45 1,-1 0,-0.55 -0.45,-1 -1,-1 z"
+   id="path20315"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20321">
+		
+			<rect
+   x="428.84"
+   y="349"
+   transform="matrix(0.3165,-0.9486,0.9486,0.3165,-36.7442,649.0032)"
+   class="st0"
+   width="6.3200002"
+   height="2"
+   id="rect20319"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20325">
+		
+			<rect
+   x="438"
+   y="344.76001"
+   transform="matrix(0.7071,-0.7071,0.7071,0.7071,-118.2001,412.6396)"
+   class="st0"
+   width="2"
+   height="8.4899998"
+   id="rect20323"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20329">
+		
+			<rect
+   x="440.53"
+   y="346"
+   transform="matrix(0.4473,-0.8944,0.8944,0.4473,-64.3872,589.8142)"
+   class="st0"
+   width="8.9399996"
+   height="2"
+   id="rect20327"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20333">
+		<rect
+   x="457"
+   y="345"
+   class="st0"
+   width="8"
+   height="2"
+   id="rect20331"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20337">
+		<rect
+   x="457"
+   y="349"
+   class="st0"
+   width="8"
+   height="2"
+   id="rect20335"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20341">
+		<rect
+   x="457"
+   y="353"
+   class="st0"
+   width="8"
+   height="2"
+   id="rect20339"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20345">
+		<polygon
+   class="st0"
+   points="439,332 437,332 437,322 435,322 435,332 433,332 433,320 439,320 "
+   id="polygon20343"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20349">
+		<polygon
+   class="st0"
+   points="447,332 445,332 445,316 443,316 443,332 441,332 441,314 447,314 "
+   id="polygon20347"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20353">
+		<polygon
+   class="st0"
+   points="455,332 453,332 453,326 451,326 451,332 449,332 449,324 455,324 "
+   id="polygon20351"
+   style="fill:#3f3a34" />
+
+	</g>
+
+	<g
+   id="g20357">
+		<polygon
+   class="st0"
+   points="463,332 461,332 461,320 459,320 459,332 457,332 457,318 463,318 "
+   id="polygon20355"
+   style="fill:#3f3a34" />
+
+	</g>
+
+</g>
+  </g>
+</svg>
