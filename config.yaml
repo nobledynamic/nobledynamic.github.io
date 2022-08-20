@@ -2,7 +2,7 @@ baseURL: https://nobledynamic.github.io
 languageCode: en-us
 title: Noble Dynamic
 theme: hugo-fresh
-googleAnalytics: G-RVHGTZNH3B
+googleAnalytics: 
 # Disables warnings
 disableKinds:
 - taxonomy
