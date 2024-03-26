@@ -3,9 +3,9 @@
     "image" : "img/rogernoble.jpg",
     "bio": "Theme Creator",
     "social": [
-        { "linkedin": "https://linkedin.com/in/nunocoracao" },
-        { "twitter": "https://twitter.com/nunocoracao" },
-        { "medium": "https://medium.com/@nunocoracao" },
-        { "github": "https://github.com/nunocoracao" }
+        { "linkedin": "https://www.linkedin.com/in/roger-noble/" },
+        { "x-twitter": "https://twitter.com/Roger_Noble" },
+        { "medium": "https://medium.com/@roger_noble" },
+        { "github": "https://github.com/RogerNoble" }
     ]
 }
