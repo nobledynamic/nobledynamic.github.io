@@ -1,0 +1,14 @@
+<article class="flex inset-x-0 pl-[24px] pr-[24px] bg-neutral dark:bg-neutral-800" style="height: 100vh; background-image: url('/images/background/electromagnet-wave.svg'); background-size: cover; background-position: 50%;">
+    <div class="relative flex-col grow max-w-[64rem] ml-auto mr-auto sm:px-14 md:px-24 lg:px-32" style="align-content: center; padding: 10rem 4rem;">
+        <div>
+            <h1 class="mb-2 text-4xl font-extrabold" style="color: #fff;">
+                {{ .Site.Title }}
+            </h1>
+            {{ with .Site.Params.subtitle }}
+            <h2 class="mt-0 mb-0 text-xl py-4" style="color: #fff;">
+                {{ . | markdownify | emojify }}
+            </h2>
+            {{ end }}
+        </div>
+    </div>
+</article>

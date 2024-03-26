@@ -1,0 +1,11 @@
+{
+    "name": "Roger Noble",
+    "image" : "img/rogernoble.jpg",
+    "bio": "Theme Creator",
+    "social": [
+        { "linkedin": "https://linkedin.com/in/nunocoracao" },
+        { "twitter": "https://twitter.com/nunocoracao" },
+        { "medium": "https://medium.com/@nunocoracao" },
+        { "github": "https://github.com/nunocoracao" }
+    ]
+}
