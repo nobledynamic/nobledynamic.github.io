@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://nobledynamic.github.io/sitemap.xml
