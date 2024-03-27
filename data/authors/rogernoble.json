@@ -6,6 +6,7 @@
         { "linkedin": "https://www.linkedin.com/in/roger-noble/" },
         { "x-twitter": "https://twitter.com/Roger_Noble" },
         { "medium": "https://medium.com/@roger_noble" },
-        { "github": "https://github.com/RogerNoble" }
+        { "github": "https://github.com/RogerNoble" },
+        { "dev": "https://dev.to/rogernoble" }
     ]
 }
