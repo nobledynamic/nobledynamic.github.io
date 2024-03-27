@@ -21,7 +21,7 @@ disableTextInHeader = true
 # defaultBackgroundImage = "electromagnet-wave.svg" # used as default for background images 
 # defaultFeaturedImage = "electromagnet-wave.svg" # used as default for featured images in all articles
 
-highlightCurrentMenuArea = true
+highlightCurrentMenuArea = false
 smartTOC = true
 smartTOCHideUnfocusedChildren = false
 
