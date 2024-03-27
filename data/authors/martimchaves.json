@@ -1,0 +1,10 @@
+{
+    "name": "Martim Chaves",
+    "image" : "img/martimchaves.png",
+    "bio": "Theme Creator",
+    "social": [
+        { "linkedin": "https://www.linkedin.com/in/martim-chaves-081796186/" },
+        { "medium": "https://medium.com/@mgrc99" },
+        { "github": "https://github.com/nunocoracao" }
+    ]
+}
