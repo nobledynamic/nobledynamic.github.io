@@ -29,15 +29,13 @@ In this blog post, we'll be going over:
 
 Let's get to the first step, getting and processing data to create a dataset with relevant features.
 
-## Data
-
-### Data Source
+## The Data
 
 The data used was obtained from the on-going Kaggle competition. That competition can be found [here](https://www.kaggle.com/competitions/march-machine-learning-mania-2024/overview).
 
 Among all of the interesting data available, our focus for this case study was on the match-by-match statistics. This data was available for both the regular seasons and the MM tournaments, going all the way back to 2003. For each match, besides the date, the teams that were playing, and their scores, other relevant features were made available, such as field goals made and personal fouls by each team.
 
-### First Look at the Data
+### First Look
 
 After a quick data wrangling, it was found that, as expected with data from Kaggle, the quality was great. With no duplicates, missing values, or wrong data types.
 
@@ -101,7 +99,7 @@ An Experiment can be created using the UI or directly from the Notebook. Using t
 (show UI creating an Experiment)
 
 Once that is done, to use that Experiment in a Notebook, this command has to be added:
-```
+```python
 import mlflow
 
 experiment_name = "[name of the experiment goes here]"
@@ -111,7 +109,7 @@ mlflow.set_experiment(experiment_name)
 ```
 
 Alternatively, an Experiment can be created from the Notebook, which requires one extra command:
-```
+```python
 import mlflow
 
 experiment_name = "[name of the experiment goes here]"
@@ -125,7 +123,7 @@ mlflow.set_experiment(experiment_name)
 
 Note that, if an Experiment with that name already exists, `create_experiment` will throw an error. In that case you might want to use the following code snippet, where first the existence of an Experiment with a given name is checked, and only if it doesn't exist is it create.
 
-```
+```python
 import mlflow
 
 experiment_name = "[name of the experiment goes here]"
@@ -141,7 +139,7 @@ mlflow.set_experiment("experiment_march_madness")
 
 When we set the experiment, runs will be saved to that experiment. To signal that a code snippet is a run that ought to be saved to the experiment we can use the following code snippet in a Notebook cell:
 
-```
+```python
 hyper_params = {"alpha": 0.5, "beta": 1.2}
 
 # Start the training job with `start_run()`
@@ -171,7 +169,7 @@ The general workflow is described in the code snippet above. After setting the e
 Another very useful tool in Fabric that should be introduced now is the ML Model tool. This tool is essentially a wrapper for the MLFlow Model Registry. It allows us to register models and keep track of different versions and their respective performances. For this case study, this was perfect. Each of the three different models were registered under a different name, and each version was saved, along with its score. To do that, a couple of extra lines are needed:
 
 
-```
+```python
 hyper_params = {"alpha": 0.5, "beta": 1.2}
 
 # Start the training job with `start_run()`
@@ -205,7 +203,7 @@ After that was done, the next step was selecting the best model. This could have
 
 Alternatively, it can also be done via code, by getting all of the versions of all of the ML Models performance, and selecting the version with the best score.
 
-```
+```python
 mlmodel_names = ["Model1", "Model2", "Model3"]
 best_score = 2
 metric_name = "brier"
@@ -234,7 +232,7 @@ for mlmodel in mlmodel_names:
 
 After finding the best model, using it to get the final predictions can be be done using the following code snippet:
 
-```
+```python
 import mlflow
 from synapse.ml.predict import MLFlowTransformer
 
@@ -262,4 +260,5 @@ And the predicted MM tournament winner is...
 
 (summary of the main ideas)
 
-Stay tuned for more! :wave:
+
+This is the first part of a series of posts about March Madness and Microsoft Fabric. Stay tuned for more! :wave:
