@@ -1,5 +1,5 @@
 ---
-title: "March Madness part 1"
+title: "Fabric Madness part 1"
 date: 2024-03-26T11:37:43Z
 draft: true
 showAuthor: true
@@ -8,24 +8,26 @@ authors:
   - "rogernoble"
 tags:
   - "Microsoft Fabric"
+series: ["Fabric Madness"]
+series_order: 1
 ---
 
 ## Introduction
 
-March madness is currently in full swing. For the uninitiated, [March Madness](https://en.wikipedia.org/wiki/NCAA_Division_I_men%27s_basketball_tournament) (MM) is a United States (US) college basketball tournament that features the best college basketball teams in the US. The format is single elimination, so over the course of several rounds, teams are eliminated, till eventually we get a champion. This tournament is not only a showcase of upcoming basketball talent, but also a fertile ground for data enthusiasts to analyze trends and predict outcomes.
+At the time of writing, it's basketball season in the United States, and there is a lot of excitement around the men's and women's college basketball tournaments. The format is single elimination, so over the course of several rounds, teams are eliminated, till eventually we get a champion. This tournament is not only a showcase of upcoming basketball talent, but (more importantly) also a fertile ground for data enthusiasts to analyze trends and predict outcomes.
 
-What's great about MM is that there is lots of data available, and we at [Noble Dynamic](https://nobledynamic.com/) wanted to take a crack at it :nerd_face:.
+One of the great things about sports (perhaps the only thing!) is that there is lots of data available, and we at [Noble Dynamic](https://nobledynamic.com/) wanted to take a crack at it :nerd_face:.
 
 We've decided to explore some of the most interesting functionalities offered by [Microsoft Fabric](https://www.microsoft.com/en-us/microsoft-fabric), a recent all-in-one cloud data tool launched by Microsoft, to tackle this challenge.
 
-This is the first part of a series of posts about March Madness. 
+This is the first part of a series of posts about *Fabric Madness*. 
 
 In this blog post, we'll be going over:
 - Data Wrangling using the notebook built-in data wrangler
 - Fast Exploratory Data Analysis (EDA) and Feature Engineering with the help of PySpark
 - Tracking the performance of different Machine Learning (ML) Models using Experiments
 - Selecting the best performing model using the ML Model functionality
-- Predicting the winner of this year's MM tournament
+- Predicting the winner of this year's tournament
 
 Let's get to the first step, getting and processing data to create a dataset with relevant features.
 
@@ -33,7 +35,7 @@ Let's get to the first step, getting and processing data to create a dataset wit
 
 The data used was obtained from the on-going Kaggle competition. That competition can be found [here](https://www.kaggle.com/competitions/march-machine-learning-mania-2024/overview).
 
-Among all of the interesting data available, our focus for this case study was on the match-by-match statistics. This data was available for both the regular seasons and the MM tournaments, going all the way back to 2003. For each match, besides the date, the teams that were playing, and their scores, other relevant features were made available, such as field goals made and personal fouls by each team.
+Among all of the interesting data available, our focus for this case study was on the match-by-match statistics. This data was available for both the regular seasons and the tournaments, going all the way back to 2003. For each match, besides the date, the teams that were playing, and their scores, other relevant features were made available, such as field goals made and personal fouls by each team.
 
 ### Loading the Data
 
@@ -73,7 +75,7 @@ A short EDA followed, with the goal of getting a general idea of the data. Chart
 At a quick glance, it was found that the data available from the regular season had normal distributions, suitable to use in the creation of features. Knowing the importance that good features have in creating solid predictive systems, the next sensible step was to carry out feature engineering to extract relevant information from the data.
 
 [//]: # (Need to clarify this sentence)
-The goal was to create a dataset where each sample's input would be a set of features for a MM game, containing information of both teams. For example, both teams average field goals made for the regular season. The target for each sample, the desired output, would be the difference between the score of the first team and the second team. Here's a representation of the dataset:
+The goal was to create a dataset where each sample's input would be a set of features for a game, containing information of both teams. For example, both teams average field goals made for the regular season. The target for each sample, the desired output, would be the difference between the score of the first team and the second team. Here's a representation of the dataset:
 
 | Team1ID | Team2ID | Team1Feat1 | Team2Feat2 | T1Score-T2Score |
 |:-------:|:-------:|:----------:|:----------:|:---------------:|
@@ -83,7 +85,7 @@ The goal was to create a dataset where each sample's input would be a set of fea
 
 ### Feature Engineering
 
-The first feature that we decided to explore was win rate. How good would the win rate of the regular season be when predicting the winner of matches during the MM tournament? The "rule" here was that the team with the higher win rate would be predicted as the winner. Not only would it be interesting to explore that feature, but it would also provide a baseline score. At this point, the way to score each predictive system should be introduced. For this case study, the Brier score was used.
+The first feature that we decided to explore was win rate. How good would the win rate of the regular season be when predicting the winner of matches during the tournament? The "rule" here was that the team with the higher win rate would be predicted as the winner. Not only would it be interesting to explore that feature, but it would also provide a baseline score. At this point, the way to score each predictive system should be introduced. For this case study, the Brier score was used.
 
 The Brier score can be described by the following formula:
 
@@ -92,13 +94,13 @@ The Brier score can be described by the following formula:
 
 It is the mean of the square of the difference between the predicted probability (p) and the actual outcome (o) for each sample. It helps quantify the accuracy of predictions, similar to how the Mean Squared Error works. However, this metric is especially useful for binary classification. The predicted probability will vary between 0 and 1, and the actual outcome will either be 0 or 1. Thus the Brier score will always be between 0 and 1. As we want the predicted probability to be as close to the actual outcome as possible, the lower the Brier score, the better, being 0 the perfect score, and 1 the worst.
 
-For this baseline, the previously mentioned dataset structure was followed. Each sample of the dataset was a MM match, containing information for Team 1 and Team 2, the teams that played in that match - specifically, their win rates for the regular season. The actual outcome was considered 1 if Team 1 won, or 0 if Team 2 won. To simplify the prediction, instead of using the Score Difference, if Team 1's win rate was higher than Team 2's, then the prediction would be 1. Otherwise, the prediction would be 0. The Score Difference as the target will be more useful later on, when more features are available, and more complex models will be used.
+For this baseline, the previously mentioned dataset structure was followed. Each sample of the dataset was a match, containing information for Team 1 and Team 2, the teams that played in that match - specifically, their win rates for the regular season. The actual outcome was considered 1 if Team 1 won, or 0 if Team 2 won. To simplify the prediction, instead of using the Score Difference, if Team 1's win rate was higher than Team 2's, then the prediction would be 1. Otherwise, the prediction would be 0. The Score Difference as the target will be more useful later on, when more features are available, and more complex models will be used.
 
 (code snippet)
 
 After calculating the win rate for each season, for each team, and using it to predict the outcome of games, it was found that this feature alone was not very good, with a Brier score of 0.35 (**check**). Knowing this, it strengthened our idea that complex patterns were at play, and using complex algorithms, such as Machine Learning Models, would be a good approach. We continued then, developing more features.
 
-We went back to the statistics of the regular season. The assumption that the performance of a team throughout the regular season can be predictive of a team's performance during the MM tournament is plausible. So, using all of the statistics available, such as field goals and personal fouls among 32 (**check**) other, the mean of those was calculated for each team, in each season. Besides these, other features were created using similar assumptions. For example, another feature that was added was the team's Elo at the end of the regular season, to act as an overall measure of the team's quality.
+We went back to the statistics of the regular season. The assumption that the performance of a team throughout the regular season can be predictive of a team's performance during the tournament is plausible. So, using all of the statistics available, such as field goals and personal fouls among 32 (**check**) other, the mean of those was calculated for each team, in each season. Besides these, other features were created using similar assumptions. For example, another feature that was added was the team's Elo at the end of the regular season, to act as an overall measure of the team's quality.
 
 (screenshot of histogram of Elos)
 
@@ -116,7 +118,7 @@ For the models, we opted for simple Neural Networks (NN). To determine which lev
 
 The next step was running the experiments!
 
-For that, we used the Experiment tool, in MS Fabric. After loading, normalising, and splitting the data, the goal was to try different hyper-parameters, for each model, to see which set of hyper-parameters would lead to the lowest Brier score for each model. Once that was done, we would be able to compare the best version of each model, and select the winner to get our final prediction for the champion of the MM tournament!
+For that, we used the Experiment tool, in MS Fabric. After loading, normalising, and splitting the data, the goal was to try different hyper-parameters, for each model, to see which set of hyper-parameters would lead to the lowest Brier score for each model. Once that was done, we would be able to compare the best version of each model, and select the winner to get our final prediction for the champion of the tournament!
 
 (code snippet normalising and splitting the data)
 
@@ -168,7 +170,7 @@ if not mlflow.get_experiment_by_name(experiment_name):
     mlflow.create_experiment(name=experiment_name)
 
 # Set experiment
-mlflow.set_experiment("experiment_march_madness")
+mlflow.set_experiment("experiment_fabric_madness")
 ```
 
 When we set the experiment, runs will be saved to that experiment. To signal that a code snippet is a run that ought to be saved to the experiment we can use the following code snippet in a Notebook cell:
@@ -287,15 +289,15 @@ df = model.transform(df)
 ```
 
 
-#### Predicting the Winner of the MM Tournament
+#### Predicting the Winner of the Tournament
 
-Now, to predict the winner of the MM tournament we had to apply the best model to all of the games in the bracket successively.
+Now, to predict the winner of the tournament we had to apply the best model to all of the games in the bracket successively.
 
-And the predicted MM tournament winner is...
+And the predicted tournament winner is...
 
 ## Conclusion
 
 (summary of the main ideas)
 
 
-This is the first part of a series of posts about March Madness and Microsoft Fabric. Stay tuned for more! :wave:
+This is the first part of a series of posts about Microsoft Fabric. Stay tuned for more! :wave:
