@@ -1,25 +1,29 @@
 ---
 title: "March Madness part 1"
 date: 2024-03-26T11:37:43Z
-draft: false
+draft: true
 showAuthor: true
 authors:
   - "martimchaves"
   - "rogernoble"
+tags:
+  - "Microsoft Fabric"
 ---
 
 ## Introduction
 
-March madness is currently around, and we at NobleDynamic wanted to take a crack at it. March Madness (MM) is a United States (US) college basketball tournament that features the best college basketball teams in the US. The format is single elimination, so over the course of several rounds, teams are eliminated, till eventually we get a champion. This tournament is not only a showcase of upcoming basketball talent, but also a fertile ground for data enthusiasts to analyze trends and predict outcomes.
+March madness is currently in full swing. For the uninitiated, [March Madness](https://en.wikipedia.org/wiki/NCAA_Division_I_men%27s_basketball_tournament) (MM) is a United States (US) college basketball tournament that features the best college basketball teams in the US. The format is single elimination, so over the course of several rounds, teams are eliminated, till eventually we get a champion. This tournament is not only a showcase of upcoming basketball talent, but also a fertile ground for data enthusiasts to analyze trends and predict outcomes.
 
-We've decided to explore some of the most interesting functionalities offered by **Fabric**, a recent all-in-one cloud data tool launched by Microsoft, to tackle this challenge.
+What's great about MM is that there is lots of data available, and we at [Noble Dynamic](https://nobledynamic.com/) wanted to take a crack at it :nerd_face:.
+
+We've decided to explore some of the most interesting functionalities offered by [Microsoft Fabric](https://www.microsoft.com/en-us/microsoft-fabric), a recent all-in-one cloud data tool launched by Microsoft, to tackle this challenge.
 
 This is the first part of a series of posts about March Madness. 
 
 In this blog post, we'll be going over:
 - Data Wrangling using the notebook built-in data wrangler
 - Fast Exploratory Data Analysis (EDA) and Feature Engineering with the help of PySpark
-- Tracking the performance of different Machine Learning (ML) Models using Fabric's Experiments tool
+- Tracking the performance of different Machine Learning (ML) Models using Experiments
 - Selecting the best performing model using the ML Model functionality
 - Predicting the winner of this year's MM tournament
 
@@ -36,7 +40,8 @@ Among all of the interesting data available, our focus for this case study was o
 ### First Look at the Data
 
 After a quick data wrangling, it was found that, as expected with data from Kaggle, the quality was great. With no duplicates, missing values, or wrong data types.
-To do this, the data wrangler was explored, which is a tool built into Notebooks. It allows for easy analysis of loaded DataFrames. In a Notebook, after reading the files into PySpark DataFrames, in the "Data" section, the "Transform DataFrame in Data Wrangler" was selected,  and from there the several DataFrames were explored. Specific DataFrames can be chosen, carrying out a careful inspection.
+
+To do this, we used [Data Wrangler](https://learn.microsoft.com/en-us/fabric/data-science/data-wrangler), a tool built in to Microsoft Fabric notebooks. Once an initial DataFrame has been created (Spark or pandas supported), Data Wranger becomes available to use and can attach to any DataFrame in the Notebook. What's great it that it allows for easy analysis of loaded DataFrames. In a Notebook, after reading the files into PySpark DataFrames, in the "Data" section, the "Transform DataFrame in Data Wrangler" was selected,  and from there the several DataFrames were explored. Specific DataFrames can be chosen, carrying out a careful inspection.
 
 (screenshot of selecting Data Wrangler in the Data Tab)
 
