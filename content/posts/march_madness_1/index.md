@@ -35,11 +35,24 @@ The data used was obtained from the on-going Kaggle competition. That competitio
 
 Among all of the interesting data available, our focus for this case study was on the match-by-match statistics. This data was available for both the regular seasons and the MM tournaments, going all the way back to 2003. For each match, besides the date, the teams that were playing, and their scores, other relevant features were made available, such as field goals made and personal fouls by each team.
 
+### Loading the Data
+
+The first step was creating a Fabric workspace. In this workspace is where all of the data and tools would be used.
+
+After downloading all of the CSV files available, a Lakehouse was created. A Lakehouse, in simple terms, is storage for both Tables (structured) and Files (unstructured) data. The data in the created Lakehouse is available for every tool in the workspace.
+
+Uploading the files was done using the UI:
+
+(screenshot)
+
+Now that there was a Lakehouse with the CSV files, it was time to dig in, and get a first look at the data. To do that, a Notebook was created, using the UI.
+
+
 ### First Look
 
 After a quick data wrangling, it was found that, as expected with data from Kaggle, the quality was great. With no duplicates, missing values, or wrong data types.
 
-To do this, we used [Data Wrangler](https://learn.microsoft.com/en-us/fabric/data-science/data-wrangler), a tool built in to Microsoft Fabric notebooks. Once an initial DataFrame has been created (Spark or pandas supported), Data Wranger becomes available to use and can attach to any DataFrame in the Notebook. What's great it that it allows for easy analysis of loaded DataFrames. In a Notebook, after reading the files into PySpark DataFrames, in the "Data" section, the "Transform DataFrame in Data Wrangler" was selected,  and from there the several DataFrames were explored. Specific DataFrames can be chosen, carrying out a careful inspection.
+To do this, we used [Data Wrangler](https://learn.microsoft.com/en-us/fabric/data-science/data-wrangler), a tool built in to Microsoft Fabric notebooks. Once an initial DataFrame has been created (Spark or pandas supported), Data Wrangler becomes available to use and can attach to any DataFrame in the Notebook. What's great is that it allows for easy analysis of loaded DataFrames. In a Notebook, after reading the files into PySpark DataFrames, in the "Data" section, the "Transform DataFrame in Data Wrangler" was selected,  and from there the several DataFrames were explored. Specific DataFrames can be chosen, carrying out a careful inspection.
 
 (screenshot of selecting Data Wrangler in the Data Tab)
 
@@ -59,7 +72,14 @@ A short EDA followed, with the goal of getting a general idea of the data. Chart
 
 At a quick glance, it was found that the data available from the regular season had normal distributions, suitable to use in the creation of features. Knowing the importance that good features have in creating solid predictive systems, the next sensible step was to carry out feature engineering to extract relevant information from the data.
 
-The goal was to create a dataset where each sample would be a set of features for a MM game, such as both teams average field goals made for the regular season, and the target for each sample would be the difference between the score of the first team and the second team. 
+[//]: # (Need to clarify this sentence)
+The goal was to create a dataset where each sample's input would be a set of features for a MM game, containing information of both teams. For example, both teams average field goals made for the regular season. The target for each sample, the desired output, would be the difference between the score of the first team and the second team. Here's a representation of the dataset:
+
+| Team1ID | Team2ID | Team1Feat1 | Team2Feat2 | T1Score-T2Score |
+|:-------:|:-------:|:----------:|:----------:|:---------------:|
+| 1       | 2       | 0.5        | 0.6        | 8               |
+| 3       | 1       | 0.2        | 0.7        | 12              |
+| 2       | 4       | 0.8        | 0.6        | -3              |
 
 ### Feature Engineering
 
@@ -72,19 +92,33 @@ The Brier score can be described by the following formula:
 
 It is the mean of the square of the difference between the predicted probability (p) and the actual outcome (o) for each sample. It helps quantify the accuracy of predictions, similar to how the Mean Squared Error works. However, this metric is especially useful for binary classification. The predicted probability will vary between 0 and 1, and the actual outcome will either be 0 or 1. Thus the Brier score will always be between 0 and 1. As we want the predicted probability to be as close to the actual outcome as possible, the lower the Brier score, the better, being 0 the perfect score, and 1 the worst.
 
-For this case study, each sample of the dataset was a MM match, containing information for Team 1 and Team 2, the teams that played in that math. The actual outcome was considered 1 if Team 1 won, or 0 if Team 2 won. The prediction was then considered the probability of Team 1 winning.
+For this baseline, the previously mentioned dataset structure was followed. Each sample of the dataset was a MM match, containing information for Team 1 and Team 2, the teams that played in that match - specifically, their win rates for the regular season. The actual outcome was considered 1 if Team 1 won, or 0 if Team 2 won. To simplify the prediction, instead of using the Score Difference, if Team 1's win rate was higher than Team 2's, then the prediction would be 1. Otherwise, the prediction would be 0. The Score Difference as the target will be more useful later on, when more features are available, and more complex models will be used.
+
+(code snippet)
 
 After calculating the win rate for each season, for each team, and using it to predict the outcome of games, it was found that this feature alone was not very good, with a Brier score of 0.35 (**check**). Knowing this, it strengthened our idea that complex patterns were at play, and using complex algorithms, such as Machine Learning Models, would be a good approach. We continued then, developing more features.
 
-We went back to the statistics of the regular season. The assumption that the performance of a team throughout the regular season can be predictive of a team's performance during the MM tournament is plausible. So, using all of the statistics available, such as field goals and personal fouls among 32 other, the mean of those was calculated for each team, in each season. Besides these, other features were created using similar assumptions. For example, another feature that was added was the team's Elo at the end of the regular season, to act as an overall measure of the team's quality.
+We went back to the statistics of the regular season. The assumption that the performance of a team throughout the regular season can be predictive of a team's performance during the MM tournament is plausible. So, using all of the statistics available, such as field goals and personal fouls among 32 (**check**) other, the mean of those was calculated for each team, in each season. Besides these, other features were created using similar assumptions. For example, another feature that was added was the team's Elo at the end of the regular season, to act as an overall measure of the team's quality.
 
-Having a good set of features ready, it was time to move on to the Models and the Experiments.
+(screenshot of histogram of Elos)
+
+Having a good set of features ready, the final dataset was done.
+
+(screenshot of final dataset head)
+
+It was time to move on to the Models and the Experiments!
 
 ## Models & Machine Learning Experiments
 
-For the models, we opted for simple Neural Networks (NN). To determine which level of complexity would be best, we created three different NNs, with an increasing number of layers and hyper-parameters. The next step was running the experiments!
+For the models, we opted for simple Neural Networks (NN). To determine which level of complexity would be best, we created three different NNs, with an increasing number of layers and hyper-parameters.
+
+(code snippet showing NNs)
+
+The next step was running the experiments!
 
 For that, we used the Experiment tool, in MS Fabric. After loading, normalising, and splitting the data, the goal was to try different hyper-parameters, for each model, to see which set of hyper-parameters would lead to the lowest Brier score for each model. Once that was done, we would be able to compare the best version of each model, and select the winner to get our final prediction for the champion of the MM tournament!
+
+(code snippet normalising and splitting the data)
 
 ### What is an Experiment?
 
@@ -94,7 +128,7 @@ Creating an Experiment in Fabric can be done via the UI or directly from a Noteb
 
 ### Creating an Experiment
 
-An Experiment can be created using the UI or directly from the Notebook. Using the UI, simply select Experiment from the **+ New** button, and choose a name.
+Using the UI, to create an Experiment simply select Experiment from the **+ New** button, and choose a name.
 
 (show UI creating an Experiment)
 
@@ -192,9 +226,12 @@ with mlflow.start_run() as run:
 In this case, if a ML Model with the `model_name` already exists, a new version is added. If it doesn't exist, an ML Model is created with that name and the logged model is considered the first version.
 
 An ML Model can also be created via Fabric's UI. Model versions of said ML Model can be imported from runs from several different Experiments.
+
 (Screenshot UI ML Model)
 
 Considering this case study, an Experiment was created for each of the three models. Several runs were executed, testing different sets of hyper-parameters, and registering a new version of each model along the way.
+
+(code snippet showing training and logging of NNs)
 
 After that was done, the next step was selecting the best model. This could have been done visually, using the UI.
 
