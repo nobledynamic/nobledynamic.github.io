@@ -1,6 +1,6 @@
 <article class="flex inset-x-0 pl-[24px] pr-[24px] bg-neutral dark:bg-neutral-800" style="height: 100vh; background-image: url('/images/background/electromagnet-wave.svg'); background-size: cover; background-position: 50%;">
     <div class="relative flex-col grow max-w-[64rem] ml-auto mr-auto sm:px-14 md:px-24 lg:px-32" style="align-content: center; padding: 10rem 4rem;">
-        <div>
+        <div class="flex flex-col gap-2">
             <h1 class="mb-2 text-4xl font-extrabold" style="color: #fff; font-size: 3rem;">
                 {{ .Site.Title }}
             </h1>
@@ -9,7 +9,9 @@
                 {{ . | markdownify | emojify }}
             </h2>
             {{ end }}
-            <a class="!rounded-md px-4 py-2 !no-underline" style="background-color: #fff; color: #000; font-weight: 700;" href="#contact" target="_self" role="button">Get in contact</a>
+            <div class="py-4">
+                <a class="!rounded-md px-4 py-2 !no-underline" style="background-color: #fff; color: #000; font-weight: 700;" href="#contact" target="_self" role="button">Get in contact</a>
+            </div>
         </div>
     </div>
 </article>
