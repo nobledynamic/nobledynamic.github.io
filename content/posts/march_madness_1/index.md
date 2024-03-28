@@ -64,7 +64,8 @@ The first feature that we decided to explore was win rate. How good would the wi
 
 The Brier score can be described by the following formula:
 
-<img src="./images/brier_score.png" alt="Brier Score formula, the mean of the square of the difference between the predicted probability (p) and the actual outcome (o) for each sample." width="400"/>
+{{< katex >}}
+\\(\Large Brier Score = \frac{1}{N} \sum_{i=1}^{N} (p_i - o_i)^2 \\)
 
 It is the mean of the square of the difference between the predicted probability (p) and the actual outcome (o) for each sample. It helps quantify the accuracy of predictions, similar to how the Mean Squared Error works. However, this metric is especially useful for binary classification. The predicted probability will vary between 0 and 1, and the actual outcome will either be 0 or 1. Thus the Brier score will always be between 0 and 1. As we want the predicted probability to be as close to the actual outcome as possible, the lower the Brier score, the better, being 0 the perfect score, and 1 the worst.
 
