@@ -2,6 +2,11 @@
 title: "Disclaimer"
 date: 2022-08-16T13:40:38+01:00
 draft: false
+showDate: false
+showRelatedContent: false
+showWordCount: false
+showReadingTime: false
+showPagination: false
 ---
 
 ## Website

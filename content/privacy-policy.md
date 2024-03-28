@@ -2,6 +2,11 @@
 title: "Privacy Policy"
 date: 2022-08-16T13:34:32+01:00
 draft: false
+showDate: false
+showRelatedContent: false
+showWordCount: false
+showReadingTime: false
+showPagination: false
 ---
 
 ## Your Privacy on this Website
