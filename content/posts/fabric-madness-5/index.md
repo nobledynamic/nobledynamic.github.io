@@ -1,6 +1,6 @@
 ---
 title: "Fabric Madness: Models"
-date: 2024-03-26T11:37:43Z
+date: 2024-03-30T11:37:43Z
 draft: true
 showAuthor: true
 authors:

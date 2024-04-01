@@ -68,7 +68,7 @@ smartTOCHideUnfocusedChildren = false
   invertPagination = false
   showReadingTime = true
   showTableOfContents = true
-  showRelatedContent = true
+  showRelatedContent = false
   relatedContentLimit = 3
   showTaxonomies = true
   showAuthorsBadges = false
@@ -89,8 +89,8 @@ smartTOCHideUnfocusedChildren = false
   showCards = false
   groupByYear = true
   cardView = false
-  cardViewScreenWidth = false
-  constrainItemsWidth = false
+  cardViewScreenWidth = true
+  constrainItemsWidth = true
 
 [sitemap]
   excludedKinds = ["taxonomy", "term"]
