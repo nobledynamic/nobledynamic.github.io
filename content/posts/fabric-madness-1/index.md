@@ -1,8 +1,8 @@
 ---
 title: "Fabric Madness: predicting basketball games with Microsoft Fabric"
 summary: "In this series of posts titled Fabric Madness, we're going to be diving deep into some of the most interesting features of Microsoft Fabric, for an end-to-end demonstration of how to train and use a machine learning model."
-date: 2024-03-26T11:37:43Z
-draft: true
+date: 2024-04-01T19:00:43Z
+draft: false
 showAuthor: true
 authors:
   - "martimchaves"
@@ -19,7 +19,7 @@ series_order: 1
 
 At the time of writing, it's basketball season in the United States, and there is a lot of excitement around the men's and women's college basketball tournaments. The format is single elimination, so over the course of several rounds, teams are eliminated, till eventually we get a champion. This tournament is not only a showcase of upcoming basketball talent, but, more importantly, a fertile ground for data enthusiasts like us to analyze trends and predict outcomes.
 
-One of the great things about sports (perhaps the only thing!) is that there is lots of data available, and we at [Noble Dynamic](https://nobledynamic.com/) wanted to take a crack at it :nerd_face:.
+One of the great things about sports is that there is lots of data available, and we at [Noble Dynamic](https://nobledynamic.com/) wanted to take a crack at it :nerd_face:.
 
 In this series of posts titled *Fabric Madness*, we're going to be diving deep into some of the most interesting features of [Microsoft Fabric](https://www.microsoft.com/en-us/microsoft-fabric), for an end-to-end demonstration of how to train and use a machine learning model.
 
@@ -33,21 +33,21 @@ Let's get to the first step, getting and processing data to create a dataset wit
 
 ## The Data
 
-The data used was obtained from the on-going Kaggle competition. That competition can be found [here](https://www.kaggle.com/competitions/march-machine-learning-mania-2024/overview).
+The data used was obtained from the on-going Kaggle competition, the details of which can be found [here](https://www.kaggle.com/competitions/march-machine-learning-mania-2024/overview).
 
 Among all of the interesting data available, our focus for this case study was on the match-by-match statistics. This data was available for both the regular seasons and the tournaments, going all the way back to 2003. For each match, besides the date, the teams that were playing, and their scores, other relevant features were made available, such as field goals made and personal fouls by each team.
 
 ### Loading the Data
 
-The first step was creating a Fabric workspace. In a workspace is where all of the data and tools are used.
+The first step was creating a Fabric **Workspace**. Workspaces in Fabric are one of the fundamental building blocks of the platform, and are used for grouping together related items and for collaboration.
 
-After downloading all of the CSV files available, a **Lakehouse** was created. A Lakehouse, in simple terms, is storage for both Tables (structured) and Files (unstructured) data. The data in the created Lakehouse is available for every tool in the workspace.
+After downloading all of the CSV files available, a **Lakehouse** was created. A Lakehouse, in simple terms, is a mix between a *Database* of Tables (structured) and a *Data Lake* of Files (unstructured). The big benefit of a Lakehouse is that data is available for every tool in the workspace.
 
 Uploading the files was done using the UI:
 
 ![Uploading Files](./images/lakehouse/lakehouse3.png "Fig. 1 - Uploading Files")
 
-Now that there was a Lakehouse with the CSV files, it was time to dig in, and get a first look at the data. To do that, we created a Notebook, using the UI, and attached the previously created lakehouse.
+Now that we have a Lakehouse with the CSV files, it was time to dig in, and get a first look at the data. To do that, we created a Notebook, using the UI, and attached the previously created lakehouse.
 
 ![Adding Lakehouse to Notebook](./images/lakehouse/lakehouse4.png "Fig. 2 - Adding Lakehouse to Notebook")
 
@@ -55,7 +55,9 @@ Now that there was a Lakehouse with the CSV files, it was time to dig in, and ge
 
 After a quick data wrangling, it was found that, as expected with data from Kaggle, the quality was great. With no duplicates or missing values.
 
-To do this, we used [Data Wrangler](https://learn.microsoft.com/en-us/fabric/data-science/data-wrangler), a tool built into Microsoft Fabric notebooks. Once an initial DataFrame has been created (Spark or Pandas supported), Data Wrangler becomes available to use and can attach to any DataFrame in the Notebook. What's great is that it allows for easy analysis of loaded DataFrames. In a Notebook, after reading the files into PySpark DataFrames, in the "Data" section, the "Transform DataFrame in Data Wrangler" was selected,  and from there the several DataFrames were explored. Specific DataFrames can be chosen, carrying out a careful inspection.
+For this task we used [Data Wrangler](https://learn.microsoft.com/en-us/fabric/data-science/data-wrangler), a tool built into Microsoft Fabric notebooks. Once an initial DataFrame has been created (Spark or Pandas supported), Data Wrangler becomes available to use and can attach to any DataFrame in the Notebook. What's great is that it allows for easy analysis of loaded DataFrames.
+
+In a Notebook, after reading the files into PySpark DataFrames, in the "Data" section, the "Transform DataFrame in Data Wrangler" was selected,  and from there the several DataFrames were explored. Specific DataFrames can be chosen, carrying out a careful inspection.
 
 ![Clicking on data wrangler in MS Fabric](./images/data-wrangler/data-wrangler-1.png "Fig. 3 - Opening Data Wrangler")
 
@@ -63,9 +65,9 @@ To do this, we used [Data Wrangler](https://learn.microsoft.com/en-us/fabric/dat
 
 In the center, we have access to all of the rows of the loaded DataFrame. On the right, a **Summary** tab, showing that indeed there are no duplicates or missing values. Clicking in a certain column, summary statistics of that column will be shown.
 
-On the left, in the **Operations** tab, there are several pre-built operations that can be applied to the DataFrame.
+On the left, in the **Operations** tab, there are several pre-built operations that can be applied to the DataFrame. The operations feature many of the most common data wrangling tasks, such as filtering, sorting, and grouping, and is a quick way to generate boilerplate code for these tasks.
 
-If it were the case that some DataFrames needed cleaning, those steps could also be done using the Data Wrangler, in a low-code format. The desired operation would have to be selected and applied. In this case, the data was already in good shape, so we moved on to EDA.
+In our case, the data was already in good shape, so we moved on to the EDA stage.
 
 ### Exploratory Data Analysis
 
@@ -145,7 +147,7 @@ The next step was running the experiments :alembic:!
 
 ### What is an Experiment?
 
-In Fabric, an Experiment can be seen as a group of related runs. A run is an execution of a code snippet. In this context, a run is a training of a model. For each run, a model will be trained with a different set of hyper-parameters. The set of hyper-parameters, along with the final model score, is logged, and this information is available for each run. Once enough runs have been completed, the final model scores can be compared, so that the best version of each model can be selected.
+In Fabric, an Experiment can be seen as a group of related runs, where a run is an execution of a code snippet. In this context, a run is a training of a model. For each run, a model will be trained with a different set of hyper-parameters. The set of hyper-parameters, along with the final model score, is logged, and this information is available for each run. Once enough runs have been completed, the final model scores can be compared, so that the best version of each model can be selected.
 
 Creating an Experiment in Fabric can be done via the UI or directly from a Notebook. The Experiment is essentially a wrapper for [MLFlow Experiments](https://mlflow.org/). One of great things about using Experiments in Fabric is that the results can be shared with others. The makes it possible to collaborate and allow others to participate in experiments, either writing code to run experiments, or analysing the results.
 
@@ -165,5 +167,6 @@ After that we can select the best model and use it to make the final prediction.
 
 After loading and analysing data from this year's US major college basketball tournament, and creating a dataset with relevant features, we were able to predict the outcome of the games using a simple Neural Network. Experiments were used to compare the performance of different models. Finally, the best performing model was selected to carry out the final prediction.
 
-
 In the next post we will go into detail on how we created the features using pyspark. Stay tuned for more! :wave:
+
+**The full source code for this post can be found [here](https://dev.azure.com/nobledynamic/_git/FabricMadness).**
