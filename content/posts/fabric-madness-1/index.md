@@ -25,10 +25,9 @@ In this series of posts titled *Fabric Madness*, we're going to be diving deep i
 
 In this first blog post, we'll be going over:
 - A frist look of the data using [Data Wrangler](https://learn.microsoft.com/en-us/fabric/data-science/data-wrangler).
-- Exploratory Data Analysis (EDA) and Feature Engineering with the help of PySpark
+- Exploratory Data Analysis (EDA) and Feature Engineering
 - Tracking the performance of different Machine Learning (ML) Models using Experiments
 - Selecting the best performing model using the ML Model functionality
-- Predicting the winner of this year's tournament
 
 Let's get to the first step, getting and processing data to create a dataset with relevant features.
 
@@ -56,7 +55,7 @@ Now that there was a Lakehouse with the CSV files, it was time to dig in, and ge
 
 After a quick data wrangling, it was found that, as expected with data from Kaggle, the quality was great. With no duplicates or missing values.
 
-To do this, we used [Data Wrangler](https://learn.microsoft.com/en-us/fabric/data-science/data-wrangler), a tool built into Microsoft Fabric notebooks. Once an initial DataFrame has been created (Spark or pandas supported), Data Wrangler becomes available to use and can attach to any DataFrame in the Notebook. What's great is that it allows for easy analysis of loaded DataFrames. In a Notebook, after reading the files into PySpark DataFrames, in the "Data" section, the "Transform DataFrame in Data Wrangler" was selected,  and from there the several DataFrames were explored. Specific DataFrames can be chosen, carrying out a careful inspection.
+To do this, we used [Data Wrangler](https://learn.microsoft.com/en-us/fabric/data-science/data-wrangler), a tool built into Microsoft Fabric notebooks. Once an initial DataFrame has been created (Spark or Pandas supported), Data Wrangler becomes available to use and can attach to any DataFrame in the Notebook. What's great is that it allows for easy analysis of loaded DataFrames. In a Notebook, after reading the files into PySpark DataFrames, in the "Data" section, the "Transform DataFrame in Data Wrangler" was selected,  and from there the several DataFrames were explored. Specific DataFrames can be chosen, carrying out a careful inspection.
 
 ![Clicking on data wrangler in MS Fabric](./images/data-wrangler/data-wrangler-1.png "Fig. 3 - Opening Data Wrangler")
 
@@ -93,9 +92,9 @@ To evaluate the accuracy of our predictions across different models, we adopted 
 {{< katex >}}
 \\(\Large Brier Score = \frac{1}{N} \sum_{i=1}^{N} (p_i - o_i)^2 \\)
 
-Calculating this score is important, as it is used to quantify the accuracy of predictions, similar to how the Mean Squared Error works. However, this metric is especially useful for binary classification. The predicted probability will vary between 0 and 1, and the actual outcome will either be 0 or 1. Thus the Brier score will always be between 0 and 1. As we want the predicted probability to be as close to the actual outcome as possible, the lower the Brier score, the better, with 0 being the perfect score, and 1 the worst.
+The predicted probability will vary between 0 and 1, and the actual outcome will either be 0 or 1. Thus the Brier score will always be between 0 and 1. As we want the predicted probability to be as close to the actual outcome as possible, the lower the Brier score, the better, with 0 being the perfect score, and 1 the worst.
 
-For the baseline, the previously mentioned dataset structure was followed. Each sample of the dataset was a match, containing information for Team 1 and Team 2, the teams that played in that match - specifically, their win rates for the regular season. The actual outcome was considered 1 if Team 1 won, or 0 if Team 2 won. To simulate a probability, the prediction was a normalised difference between T1's win rate and T2's win rate. For the maximum value of the difference between the win rates, the prediction would be 1. For the minimum value, the prediction would be 0. The Score Difference as the target will be more useful later on, when more features are available, and more complex models will be used.
+For the baseline, the previously mentioned dataset structure was followed. Each sample of the dataset was a match, containing information for Team 1 and Team 2, the teams that played in that match - specifically, their win rates for the regular season. The actual outcome was considered 1 if Team 1 won, or 0 if Team 2 won. To simulate a probability, the prediction was a normalised difference between T1's win rate and T2's win rate. For the maximum value of the difference between the win rates, the prediction would be 1. For the minimum value, the prediction would be 0.
 
 ```python
 # Add the "outcome" column: 1 if T1_Score > T2_Score, else 0
@@ -107,52 +106,44 @@ tourney_df = tourney_df.withColumn("probability", (F.col("T1_win_ratio") - F.col
 
 After calculating the win rate, and then using it to predict the outcomes, we got a Brier score of **0.23**. Considering that guessing at random leads to a Brier score of **0.25**, it's clear that this feature alone is not very good 😬.
 
-By starting with a simple baseline, it clearly highlighted that more complex patterns were at play. We went ahead to developed another 42 features, in preparation for utilising more complex algorithms, and machine learning models, that might have a better chance.
+By starting with a simple baseline, it clearly highlighted that more complex patterns were at play. We went ahead to developed another 42 features, in preparation for utilising more complex algorithms, machine learning models, that might have a better chance.
 
 It was time to move on to the Experiments.
 
 ## Models & Machine Learning Experiments
 
-For the models, we opted for simple Neural Networks (NN). To determine which level of complexity would be best, we created three different NNs, with an increasing number of layers and hyper-parameters.
+For the models, we opted for simple Neural Networks (NN). To determine which level of complexity would be best, we created three different NNs, with an increasing number of layers and hyper-parameters. Here's an example of a small NN, one that was used:
 
 ```python
-import tensorflow as tf
-from tensorflow.keras.models import Sequential, load_model
+from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
-from tensorflow.keras.callbacks import ModelCheckpoint
-from sklearn.metrics import brier_score_loss
-from tensorflow.keras.optimizers import Adam
 
-def create_model_1(input_shape):
+def create_small_NN(input_shape):
     model = Sequential([
-        Dense(64, activation='relu', input_shape=(input_shape,)),
-        Dense(1, activation='sigmoid')
-    ])
-    return model
-
-def create_model_2(input_shape):
-    model = Sequential([
-        Dense(64, activation='relu', input_shape=(input_shape,)),
-        Dense(64, activation='relu'),
-        Dense(1, activation='sigmoid')
-    ])
-    return model
-
-def create_model_3(input_shape):
-    model = Sequential([
-        Dense(128, activation='relu', input_shape=(input_shape,)),
-        Dense(64, activation='relu'),
-        Dense(64, activation='relu'),
+        Dense(64, activation='relu', input_shape=(number_of_features,)),
         Dense(1, activation='sigmoid')
     ])
     return model
 ```
 
+![Shows diagram of neural network with three layers, each with different number of neurons.](./images/model/model-1.svg "Fig. 6 - Diagram of a Neural Network")
+
+
+If you're unfamiliar with NNs think of them as a set of layers, where each layer acts as a filter for relevant information. Data passes through successive layers, in a step-by-step fashion, where each layer has an input and an output. Data moves through the network in one direction, from the first layer (the model's input) to the last layer (the model's output), without looping back, hence the **Sequential** function. Each layer is made up of several neurons, that can be described as nodes. The model's input, the first layer, will contain as many neurons as there are features available, and each neuron will hold the value of a feature. The model's output, the last layer, in binary problems such as the one we're tackling, will only have 1 neuron. The value held by this neuron should be 1 if the model is processing a match where Team 1 won, or 0 if Team 2 won. The intermediate layers have an *ad hoc* number of neurons. In the example in the code snippet, 64 neurons were chosen. 
+
+In a **Dense** layer, as is the case here, each neuron in the layer is connected to every neuron in the preceding layer. Fundamentally, each neuron **processes** the information provided by the neurons from the previous layer.
+
+The processing of the previous layer's information requires an **activation function**. There are many types of activation functions - **ReLU**, standing for Rectified Linear Unit, is one of them. It allows only positive values to pass and sets negative values to zero, making it effective for many types of data.
+
+Note that the final activation function is a **sigmoid** function - this converts the output to a number between 0 and 1. This is crucial for binary classification tasks, where you need the model to express its output as a probability.
+
+Besides these small models, medium and large models were created, with an increasing number of layers and parameters. The size of a model affects its ability to capture complex patterns in the data, with larger models generally being more capable in this regard. However, larger models also require more data to learn effectively - if there's not enough data, issues may occur. Finding the right size is sometimes only possible through experimentation, by training different models and comparing their performance to identify the most effective configuration.
+
 The next step was running the experiments :alembic:!
 
 ### What is an Experiment?
 
-In Fabric, an Experiment allows us to try different hyper-parameters, for each model training run. This set of hyper-parameters, along with the final model score, would be logged, and this information would be available for each run. Once enough runs have been completed, the final model scores can be compared, so that the best version of each model can be selected.
+In Fabric, an Experiment can be seen as a group of related runs. A run is an execution of a code snippet. In this context, a run is a training of a model. For each run, a model will be trained with a different set of hyper-parameters. The set of hyper-parameters, along with the final model score, is logged, and this information is available for each run. Once enough runs have been completed, the final model scores can be compared, so that the best version of each model can be selected.
 
 Creating an Experiment in Fabric can be done via the UI or directly from a Notebook. The Experiment is essentially a wrapper for [MLFlow Experiments](https://mlflow.org/). One of great things about using Experiments in Fabric is that the results can be shared with others. The makes it possible to collaborate and allow others to participate in experiments, either writing code to run experiments, or analysing the results.
 
@@ -160,13 +151,13 @@ Creating an Experiment in Fabric can be done via the UI or directly from a Noteb
 
 Using the UI, to create an Experiment simply select Experiment from the **+ New** button, and choose a name.
 
-![Creating an Experiment using the UI. Shows mouse hovering experiment, with + New dropdown open](./images/exp/exp-1.png "Fig. 6 - Creating an Experiment using the UI")
+![Creating an Experiment using the UI. Shows mouse hovering experiment, with + New dropdown open](./images/exp/exp-1.png "Fig. 7 - Creating an Experiment using the UI")
 
 When training each of the models, the hyper-parameters are logged with the experiment, as well as the final score. Once completed we can see the results in the UI, and compare the different runs to see which model performed best.
 
-![Comparing different runs](./images/exp/exp-4.png "Fig. 7 - Comparing different runs")
+![Comparing different runs](./images/exp/exp-5.png "Fig. 8 - Comparing different runs")
 
-After that we can select the best model and use it to make the final prediction. When comparing the three models, the best Brier score was **0.19**, a slight improvement :tada:!
+After that we can select the best model and use it to make the final prediction. When comparing the three models, the best Brier score was **0.20**, a slight improvement :tada:!
 
 ## Conclusion
 
