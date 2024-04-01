@@ -39,7 +39,7 @@ Among all of the interesting data available, our focus for this case study was o
 
 ### Loading the Data
 
-The first step was creating a Fabric workspace. In this workspace is where all of the data and tools would be used.
+The first step was creating a Fabric workspace. In a workspace is where all of the data and tools are used.
 
 After downloading all of the CSV files available, a **Lakehouse** was created. A Lakehouse, in simple terms, is storage for both Tables (structured) and Files (unstructured) data. The data in the created Lakehouse is available for every tool in the workspace.
 
@@ -67,7 +67,7 @@ On the left, in the **Operations** tab, there are several pre-built operations t
 
 If it were the case that some DataFrames needed cleaning, those steps could also be done using the Data Wrangler, in a low-code format. The desired operation would have to be selected and applied. In this case, the data was already in good shape, so we moved on to EDA.
 
-### EDA
+### Exploratory Data Analysis
 
 A short Exploratory Data Analysis (EDA) followed, with the goal of getting a general idea of the data. Charts were plotted to get a sense of the distribution of the data and if there were any statistics that could be problematic due to, for example, very long tails.
 
@@ -92,9 +92,9 @@ To evaluate the accuracy of our predictions across different models, we adopted 
 {{< katex >}}
 \\(\Large Brier Score = \frac{1}{N} \sum_{i=1}^{N} (p_i - o_i)^2 \\)
 
-The predicted probability will vary between 0 and 1, and the actual outcome will either be 0 or 1. Thus the Brier score will always be between 0 and 1. As we want the predicted probability to be as close to the actual outcome as possible, the lower the Brier score, the better, with 0 being the perfect score, and 1 the worst.
+The predicted probability will vary between 0 and 1, and the actual outcome will either be 0 or 1. Thus, the Brier score will always be between 0 and 1. As we want the predicted probability to be as close to the actual outcome as possible, the lower the Brier score, the better, with 0 being the perfect score, and 1 the worst.
 
-For the baseline, the previously mentioned dataset structure was followed. Each sample of the dataset was a match, containing information for Team 1 and Team 2, the teams that played in that match - specifically, their win rates for the regular season. The actual outcome was considered 1 if Team 1 won, or 0 if Team 2 won. To simulate a probability, the prediction was a normalised difference between T1's win rate and T2's win rate. For the maximum value of the difference between the win rates, the prediction would be 1. For the minimum value, the prediction would be 0.
+For the baseline, the previously mentioned dataset structure was followed. Each sample of the dataset was a match, containing the win rates for the regular season for Team 1 and Team 2. The actual outcome was considered 1 if Team 1 won, or 0 if Team 2 won. To simulate a probability, the prediction was a normalised difference between T1's win rate and T2's win rate. For the maximum value of the difference between the win rates, the prediction would be 1. For the minimum value, the prediction would be 0.
 
 ```python
 # Add the "outcome" column: 1 if T1_Score > T2_Score, else 0
@@ -108,7 +108,7 @@ After calculating the win rate, and then using it to predict the outcomes, we go
 
 By starting with a simple baseline, it clearly highlighted that more complex patterns were at play. We went ahead to developed another 42 features, in preparation for utilising more complex algorithms, machine learning models, that might have a better chance.
 
-It was time to move on to the Experiments.
+It was then  time to create machine learning models!
 
 ## Models & Machine Learning Experiments
 
@@ -129,7 +129,9 @@ def create_small_NN(input_shape):
 ![Shows diagram of neural network with three layers, each with different number of neurons.](./images/model/model-1.svg "Fig. 6 - Diagram of a Neural Network")
 
 
-If you're unfamiliar with NNs think of them as a set of layers, where each layer acts as a filter for relevant information. Data passes through successive layers, in a step-by-step fashion, where each layer has an input and an output. Data moves through the network in one direction, from the first layer (the model's input) to the last layer (the model's output), without looping back, hence the **Sequential** function. Each layer is made up of several neurons, that can be described as nodes. The model's input, the first layer, will contain as many neurons as there are features available, and each neuron will hold the value of a feature. The model's output, the last layer, in binary problems such as the one we're tackling, will only have 1 neuron. The value held by this neuron should be 1 if the model is processing a match where Team 1 won, or 0 if Team 2 won. The intermediate layers have an *ad hoc* number of neurons. In the example in the code snippet, 64 neurons were chosen. 
+If you're familiar with NNs, feel free to skip to the [Experiments](#what-is-an-experiment)! If you're unfamiliar with NNs think of them as a set of layers, where each layer acts as a filter for relevant information. Data passes through successive layers, in a step-by-step fashion, where each layer has inputs and outputs. Data moves through the network in one direction, from the first layer (the model's input) to the last layer (the model's output), without looping back, hence the **Sequential** function.
+
+Each layer is made up of several neurons, that can be described as nodes. The model's input, the first layer, will contain as many neurons as there are features available, and each neuron will hold the value of a feature. The model's output, the last layer, in binary problems such as the one we're tackling, will only have 1 neuron. The value held by this neuron should be 1 if the model is processing a match where Team 1 won, or 0 if Team 2 won. The intermediate layers have an *ad hoc* number of neurons. In the example in the code snippet, 64 neurons were chosen. 
 
 In a **Dense** layer, as is the case here, each neuron in the layer is connected to every neuron in the preceding layer. Fundamentally, each neuron **processes** the information provided by the neurons from the previous layer.
 
@@ -161,7 +163,7 @@ After that we can select the best model and use it to make the final prediction.
 
 ## Conclusion
 
-After loading and analysing data from this year's US major college basketball tournament, and creating a dataset with relevant features, we were able to predict the outcome of the games using a simple Neural Network. The experiments were used to compare the performance of different models. Finally, the best performing model was selected to carry out the final prediction.
+After loading and analysing data from this year's US major college basketball tournament, and creating a dataset with relevant features, we were able to predict the outcome of the games using a simple Neural Network. Experiments were used to compare the performance of different models. Finally, the best performing model was selected to carry out the final prediction.
 
 
 In the next post we will go into detail on how we created the features using pyspark. Stay tuned for more! :wave:
