@@ -12,9 +12,11 @@ series: ["Fabric Madness"]
 series_order: 1
 ---
 
+[//]: # "Mostly using active voice (we did...) instead of passive voice (x was done...) to sound more direct and engaging. Passive voice used when we want to give emphasis to the object (A Lakehouse was created - emphasis on the Lakehouse)"
+
 ## Introduction
 
-At the time of writing, it's basketball season in the United States, and there is a lot of excitement around the men's and women's college basketball tournaments. The format is single elimination, so over the course of several rounds, teams are eliminated, till eventually we get a champion. This tournament is not only a showcase of upcoming basketball talent, but (more importantly) also a fertile ground for data enthusiasts like us to analyze trends and predict outcomes.
+At the time of writing, it's basketball season in the United States, and there is a lot of excitement around the men's and women's college basketball tournaments. The format is single elimination, so over the course of several rounds, teams are eliminated, till eventually we get a champion. This tournament is not only a showcase of upcoming basketball talent, but, more importantly, a fertile ground for data enthusiasts like us to analyze trends and predict outcomes.
 
 One of the great things about sports (perhaps the only thing!) is that there is lots of data available, and we at [Noble Dynamic](https://nobledynamic.com/) wanted to take a crack at it :nerd_face:.
 
@@ -39,13 +41,13 @@ Among all of the interesting data available, our focus for this case study was o
 
 The first step was creating a Fabric workspace. In this workspace is where all of the data and tools would be used.
 
-After downloading all of the CSV files available, a Lakehouse was created. A Lakehouse, in simple terms, is storage for both Tables (structured) and Files (unstructured) data. The data in the created Lakehouse is available for every tool in the workspace.
+After downloading all of the CSV files available, a **Lakehouse** was created. A Lakehouse, in simple terms, is storage for both Tables (structured) and Files (unstructured) data. The data in the created Lakehouse is available for every tool in the workspace.
 
 Uploading the files was done using the UI:
 
 ![Uploading Files](./images/lakehouse/lakehouse3.png "Fig. 1 - Uploading Files")
 
-Now that there was a Lakehouse with the CSV files, it was time to dig in, and get a first look at the data. To do that, a Notebook was created, using the UI, attaching the created lakehouse.
+Now that there was a Lakehouse with the CSV files, it was time to dig in, and get a first look at the data. To do that, we created a Notebook, using the UI, and attached the previously created lakehouse.
 
 ![Adding Lakehouse to Notebook](./images/lakehouse/lakehouse4.png "Fig. 2 - Adding Lakehouse to Notebook")
 
@@ -59,7 +61,7 @@ To do this, we used [Data Wrangler](https://learn.microsoft.com/en-us/fabric/dat
 
 ![Analysing the DataFrame with Data Wrangler](./images/data-wrangler/data-wrangler-2.png "Fig. 4 - Analysing the DataFrame with Data Wrangler")
 
-In the center, we have access to all of the rows of the loaded DataFrame. On the right, a **Summary** tab, showing that indeed there are no duplicates or missing values. Clicking in a certain column will, summary statistics of that column will be shown.
+In the center, we have access to all of the rows of the loaded DataFrame. On the right, a **Summary** tab, showing that indeed there are no duplicates or missing values. Clicking in a certain column, summary statistics of that column will be shown.
 
 On the left, in the **Operations** tab, there are several pre-built operations that can be applied to the DataFrame.
 
@@ -83,9 +85,9 @@ The goal was to create a dataset where each sample's input would be a set of fea
 
 ### Feature Engineering
 
-The first feature that we decided to explore was win rate. The "rule" for our initial approach, was that the team with the higher win rate would be predicted as the winner. Not only would it be interesting to explore that feature, but it would also provide a baseline score. At this point, the way to score each predictive system should be introduced. For this case study, the Brier score was used.
+The first feature that we decided to explore was win rate. Not only would it be an interesting feature to explore, but it would also provide a baseline score. This initial approach employed a simple rule: the team with the higher win rate would be predicted as the winner. This method provides a fundamental baseline against which the performance of more sophisticated predictive systems can be compared to.
 
-The Brier score is the mean of the square of the difference between the predicted probability (p) and the actual outcome (o) for each sample, and can be described by the following formula:
+To evaluate the accuracy of our predictions across different models, we adopted the Brier score. The Brier score is the mean of the square of the difference between the predicted probability (p) and the actual outcome (o) for each sample, and can be described by the following formula:
 
 {{< katex >}}
 \\(\Large Brier Score = \frac{1}{N} \sum_{i=1}^{N} (p_i - o_i)^2 \\)
