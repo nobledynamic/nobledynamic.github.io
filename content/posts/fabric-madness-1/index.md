@@ -24,12 +24,10 @@ One of the great things about sports is that there is lots of data available, an
 In this series of posts titled *Fabric Madness*, we're going to be diving deep into some of the most interesting features of [Microsoft Fabric](https://www.microsoft.com/en-us/microsoft-fabric), for an end-to-end demonstration of how to train and use a machine learning model.
 
 In this first blog post, we'll be going over:
-- A frist look of the data using [Data Wrangler](https://learn.microsoft.com/en-us/fabric/data-science/data-wrangler).
+- A first look at the data using [Data Wrangler](https://learn.microsoft.com/en-us/fabric/data-science/data-wrangler).
 - Exploratory Data Analysis (EDA) and Feature Engineering
 - Tracking the performance of different Machine Learning (ML) Models using Experiments
 - Selecting the best performing model using the ML Model functionality
-
-Let's get to the first step, getting and processing data to create a dataset with relevant features.
 
 ## The Data
 
@@ -47,7 +45,7 @@ Uploading the files was done using the UI:
 
 ![Uploading Files](./images/lakehouse/lakehouse3.png "Fig. 1 - Uploading Files")
 
-Now that we have a Lakehouse with the CSV files, it was time to dig in, and get a first look at the data. To do that, we created a Notebook, using the UI, and attached the previously created lakehouse.
+Now that we have a Lakehouse with the CSV files, it was time to dig in, and get a first look at the data. To do that, we created a Notebook, using the UI, and attached the previously created Lakehouse.
 
 ![Adding Lakehouse to Notebook](./images/lakehouse/lakehouse4.png "Fig. 2 - Adding Lakehouse to Notebook")
 
@@ -63,7 +61,7 @@ In a Notebook, after reading the files into PySpark DataFrames, in the "Data" se
 
 ![Analysing the DataFrame with Data Wrangler](./images/data-wrangler/data-wrangler-2.png "Fig. 4 - Analysing the DataFrame with Data Wrangler")
 
-In the center, we have access to all of the rows of the loaded DataFrame. On the right, a **Summary** tab, showing that indeed there are no duplicates or missing values. Clicking in a certain column, summary statistics of that column will be shown.
+In the centre, we have access to all of the rows of the loaded DataFrame. On the right, a **Summary** tab, showing that indeed there are no duplicates or missing values. Clicking in a certain column, summary statistics of that column will be shown.
 
 On the left, in the **Operations** tab, there are several pre-built operations that can be applied to the DataFrame. The operations feature many of the most common data wrangling tasks, such as filtering, sorting, and grouping, and is a quick way to generate boilerplate code for these tasks.
 
@@ -73,7 +71,7 @@ In our case, the data was already in good shape, so we moved on to the EDA stage
 
 A short Exploratory Data Analysis (EDA) followed, with the goal of getting a general idea of the data. Charts were plotted to get a sense of the distribution of the data and if there were any statistics that could be problematic due to, for example, very long tails.
 
-![Example of an histogram of fields goal made. It shows a normal distribution](./images/eda/eda-1.png "Fig. 5 - Histogram of Fields Goal Made")
+![Example of an histogram of fields goal made. It shows a normal distribution](./images/eda/eda-1.png "Fig. 5 - Histogram of field goals made")
 
 At a quick glance, it was found that the data available from the regular season had normal distributions, suitable to use in the creation of features. Knowing the importance that good features have in creating solid predictive systems, the next sensible step was to carry out feature engineering to extract relevant information from the data.
 
@@ -149,11 +147,11 @@ The next step was running the experiments :alembic:!
 
 In Fabric, an Experiment can be seen as a group of related runs, where a run is an execution of a code snippet. In this context, a run is a training of a model. For each run, a model will be trained with a different set of hyper-parameters. The set of hyper-parameters, along with the final model score, is logged, and this information is available for each run. Once enough runs have been completed, the final model scores can be compared, so that the best version of each model can be selected.
 
-Creating an Experiment in Fabric can be done via the UI or directly from a Notebook. The Experiment is essentially a wrapper for [MLFlow Experiments](https://mlflow.org/). One of great things about using Experiments in Fabric is that the results can be shared with others. The makes it possible to collaborate and allow others to participate in experiments, either writing code to run experiments, or analysing the results.
+Creating an Experiment in Fabric can be done via the UI or directly from a Notebook. The Experiment is essentially a wrapper for [MLFlow Experiments](https://mlflow.org/). One of the great things about using Experiments in Fabric is that the results can be shared with others. This makes it possible to collaborate and allow others to participate in experiments, either writing code to run experiments, or analysing the results.
 
 ### Creating an Experiment
 
-Using the UI, to create an Experiment simply select Experiment from the **+ New** button, and choose a name.
+Using the UI to create an Experiment simply select Experiment from the **+ New** button, and choose a name.
 
 ![Creating an Experiment using the UI. Shows mouse hovering experiment, with + New dropdown open](./images/exp/exp-1.png "Fig. 7 - Creating an Experiment using the UI")
 
