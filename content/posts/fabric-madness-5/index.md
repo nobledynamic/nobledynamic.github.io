@@ -1,5 +1,6 @@
 ---
 title: "Fabric Madness: Models"
+summary: "A Model Registry can be seen as a catalog of ML Models and in Fabric, ML Model is a a wrapper for the MLFlow Model Registry, which allows us to register models and keep track of different versions and their respective performances."
 date: 2024-03-30T11:37:43Z
 draft: true
 showAuthor: true
@@ -14,7 +15,7 @@ series_order: 5
 
 ## Introduction
 
-Another very useful tool in Fabric is ML Model. This tool is essentially a wrapper for the MLFlow Model Registry. It allows us to register models and keep track of different versions and their respective performances.
+Another very useful tool in Fabric is **ML Model**. This tool is essentially a wrapper for the [MLFlow Model Registry](https://mlflow.org/docs/latest/model-registry.html). It allows us to register models and keep track of different versions and their respective performances.
 
 A Model Registry can be seen as a catalog of ML Models. An ML Model, saved in the registry, can therefore be seen as a catalog entry. Under this catalog entry, there can be multiple versions of it, grouped together. Fundamentally, each version represents a distinct set of model files. These files contain the model's architecture and trained weights, as well as any other files necessary to load it and use it. Each version is essentially a **snapshot** of the ML Model at a specific point in time.
 
@@ -48,9 +49,9 @@ with mlflow.start_run(run_name="logging_a_model") as run:
   result = mlflow.register_model(model_uri, model_name)
 ```
 
-Note that a signature is needed. A signature is essentially the input and output shape of the model. This is needed to later on load the model.
+Note that a signature is needed, which is essentially the input and output shape of the model and is needed later on load the model.
 
-MLFlow has functions to log models made with different commonly used packages, such as tensorflow, pytorch, and sklearn. When `mlflow.tensorflow.log_model` is used, a folder is saved, attatched to the run, containing the files needed to load and run the model. In these files, the architecture along with with trained weights of the model and any other configuration necessary for reconstruction are found. This makes it possible to load the model later, either to do inference, fine-tune it, or any other regular model operation without having to re-run the original code that created it.
+MLFlow has functions to log models made with different commonly used packages, such as [TensorFlow](https://www.tensorflow.org/), [PyTorch](https://pytorch.org/), and [scikit-learn](https://scikit-learn.org/). When `mlflow.tensorflow.log_model` is used, a folder is saved, attatched to the run, containing the files needed to load and run the model. In these files, the architecture along with with trained weights of the model and any other configuration necessary for reconstruction are found. This makes it possible to load the model later, either to do inference, fine-tune it, or any other regular model operation without having to re-run the original code that created it.
 
 The model's URI is essentially the "path" to the model file - note that it's made up of the run ID and the name of the file used for the model. Once we have the model's URI, we can register a ML Model, using the model's URI.
 
