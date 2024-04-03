@@ -13,7 +13,7 @@ series: ["Fabric Madness"]
 series_order: 3
 ---
 
-In the previous post, we discussed how to use Notebooks with pyspark for feature engineering. While spark offers a lot of flexibility and power, it can be tends to be quite complex and requires a lot of code to get started. Not everyone is comfortable with writing code or has the time to learn a new programming language, which is where Dataflow Gen2 comes in.
+In the previous post, we discussed how to use Notebooks with pyspark for feature engineering. While spark offers a lot of flexibility and power, it can be quite complex and requires a lot of code to get started. Not everyone is comfortable with writing code or has the time to learn a new programming language, which is where Dataflow Gen2 comes in.
 
 ## What is Dataflow Gen2?
 
@@ -193,7 +193,7 @@ Now that the data is loaded we can start with some basic data preparation to get
 
 The next step is to rename the column "WLoc" to "location" by either selecting the column in the table view, or by right clicking on the column and selecting "Rename". 
 
-The location column contains the location of the game, which is either "H" for home, "A" for away, or "N" for neutral. For our purposes, we want to convert this to a numerical value, where "H" is 1, "A" is -1, and "N" is 0, as this will make it easier to use in our model. This can be done by selecting the column and then selecting using the **Replace values...** transform in the Transform menu item.
+The location column contains the location of the game, which is either "H" for home, "A" for away, or "N" for neutral. For our purposes, we want to convert this to a numerical value, where "H" is 1, "A" is -1, and "N" is 0, as this will make it easier to use in our model. This can be done by selecting the column and then using the **Replace values...** transform in the Transform menu item.
 
 ![Replace Values](./images/replace-values.png "Fig. 5 - Replace Values")
 
@@ -229,7 +229,7 @@ There are a few limitations with the no code approach, the main one is that it's
 In the low code approach we will use a combination of the visual interface and the M language to load and transform the data. This approach is more flexible than the no code approach, but still doesn't require a lot of code to be written.
 
 ### Loading the data
-The goal of the low code approach is to reduce the number of repeated queries that are needed and to make it easier to reuse transformations. To do this we will take advantage of the fact that Power Query is a functional language and that we can create functions to encapsulate the transformations that we want to apply to the data. When we fist loaded the data from the Lakehouse there were four steps that were created, the second step was to convert the contents of the Lakehouse into a table, with each row containing a reference to a binary csv file. We can use this as the input into a function, which will load the csv into a new table, using the Invoke custom function transformation for each row of the table.
+The goal of the low code approach is to reduce the number of repeated queries that are needed and to make it easier to reuse transformations. To do this we will take advantage of the fact that Power Query is a functional language and that we can create functions to encapsulate the transformations that we want to apply to the data. When we first loaded the data from the Lakehouse there were four steps that were created, the second step was to convert the contents of the Lakehouse into a table, with each row containing a reference to a binary csv file. We can use this as the input into a function, which will load the csv into a new table, using the Invoke custom function transformation for each row of the table.
 
 ![Lakehouse query](./images/lakehouse-query.png "Fig. 9 - Lakehouse query with the binary csv files in a column called Content")
 
@@ -242,7 +242,7 @@ To create the function, select "Blank query" from the Get data menu, or right cl
 in
   PromoteHeaders
 ```
-The code of this function have been copied from our initial no code approach, but instead of loading the csv file directly, it takes a parameter called **TableContents**, reads it as a csv file `Csv.Document` and then sets the first row of the data to be the column headers `Table.PromoteHeaders`.
+The code of this function has been copied from our initial no code approach, but instead of loading the csv file directly, it takes a parameter called **TableContents**, reads it as a csv file `Csv.Document` and then sets the first row of the data to be the column headers `Table.PromoteHeaders`.
 
 We can then use the Invoke custom function transformation to apply this function to each row of the Lakehouse query. This can be done by selecting the "Invoke custom function" transformation from the Add column ribbon and then selecting the function that we just created.
 
@@ -259,7 +259,7 @@ There are still some limitations with this approach, while we've reduced the num
 ## The all code approach
 The all code approach is the most flexible and powerful approach, but also requires the most amount of code to be written. This approach is best suited for those who are comfortable with writing code and want to have full control over the transformations that are applied to the data.
 
-Essentially what we'll do is grab all the M code that was generated in each of the queries and combine them into a single query. This will allow us to load all the csv files in a single query and then apply the transformations to each of them in a single step. To get all the M code, we can select each query and the click on the Advanced Editor from the Home ribbon, which displays all the M code that was generated for that query. We can then copy and paste this code into a new query and then combine them all together.
+Essentially what we'll do is grab all the M code that was generated in each of the queries and combine them into a single query. This will allow us to load all the csv files in a single query and then apply the transformations to each of them in a single step. To get all the M code, we can select each query and then click on the Advanced Editor from the Home ribbon, which displays all the M code that was generated for that query. We can then copy and paste this code into a new query and then combine them all together.
 
 To do this, we need to create a new blank query and then enter the following code:
 
@@ -285,7 +285,15 @@ in
 ```
 *Note: the Lakehouse connection values have been removed*
 
-What's happening here is that we're loading the data from the Lakehouse, filtering the rows to only include the csv files that match the TourneyType parameter, loading the csv files into tables, expanding the tables into columns, renaming the columns, changing the data types, and then combining the two tables back together. Finally we calculate the point difference between the two teams.
+What's happening here is that we're:
+1. Loading the data from the Lakehouse;
+2. Filtering the rows to only include the csv files that match the TourneyType parameter;
+3. Loading the csv files into tables;
+4. Expanding the tables into columns;
+5. Renaming the columns;
+6. Changing the data types;
+7. Combining the two tables back together;
+8. Calculatint the point difference between the two teams.
 
 Using the query is then as simple as selecting it, and then invoking the function with the TourneyType parameter.
 
@@ -300,6 +308,6 @@ As you can see, the LoadTournamentData function is invoked with the parameter "R
 ## Conclusion
 And that's it!
 
-Hopefully this post has given you a good overview of how to use Dataflow Gen2 to prepare data and create features for your machine learning model. It's low code approach makes it easy to create data pipelines quickly, and it contains a lot of powerful features that can be used to create complex transformations. It's a great first port of call for anyone who needs to transform data, but more importantly, has the benefit of not needing to write complex code that is prone to errors, is hard to test, and is difficult to maintain.
+Hopefully this post has given you a good overview of how to use Dataflow Gen2 to prepare data and create features for your machine learning model. Its low code approach makes it easy to create data pipelines quickly, and it contains a lot of powerful features that can be used to create complex transformations. It's a great first port of call for anyone who needs to transform data, but more importantly, has the benefit of not needing to write complex code that is prone to errors, is hard to test, and is difficult to maintain.
 
 At the time of writing Dataflows Gen2 are unsupported with the Git integration, and so is not possible to version control or share the dataflows. This feature is expected to be [released in Q4 2024](https://learn.microsoft.com/en-us/fabric/release-plan/data-factory#git-df).
