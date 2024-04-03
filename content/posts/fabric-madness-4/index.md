@@ -15,11 +15,13 @@ series_order: 4
 
 ## Introduction
 
-Machine Learning (ML) Systems usually require carefull tuning of its parts. Be it the features being used, the model, the model's hyperparameters, etc... Often, improving the performance of a system is done in an **experimental** way, trying out different configurations, and seeing which one works best! That's why having a good setup to carry out these experiments is fundamental in the development of ML Systems.
+Machine Learning (ML) Systems usually require carefull tuning of its parts. Be it the features being used, the model, the model's hyperparameters, etc... Often, improving the performance of a system is done in an **experimental** way, trying out different configurations, and seeing which one works best! 
 
-Throughout this series, we've been discussing how Fabric has an **Experiment** tool. This tool is essentially a wrapper for MLFlow, with the added benefit of allowing for easy collaboration between anyone in the workspace. We don't have to worry about taking care of the infrastructure that a collaborative MLFlow environment would require! MLFlow is itself a great open-source platform - creating, running, analysing results, and drawing conclusions is made easy.
+When starting out on your ML journey an easy trap to fall into is not recording these configurations, making it difficult to know which configuration had the best performance. Experimentation needs to be systematic, and the results need to be logged. That's why having a good setup to carry out these experiments is fundamental in the development of ML Systems in the same way that source control is fundamental for code.
 
-In this post, we aim to demonstrate how MLFlow can be used within Fabric. We'll be going over:
+Throughout this series, we've been discussing how Fabric has an **Experiment** tool. This tool is essentially a wrapper for [MLFlow](https://mlflow.org/), with the added benefit of allowing for easy collaboration between anyone in the workspace. This has the benefit of us not having to worry about taking care of the infrastructure that a collaborative MLFlow environment would require, so we can instead focus on the on the fun stuff 😎! MLFlow is itself a great open-source platform - creating, running, analysing results, and drawing conclusions is made easy.
+
+In this post, we aim to demonstrate how MLFlow is used within Fabric. We'll be going over:
 - How does MLFlow work?
 - Creating and Setting Experiments
 - Running Experiments and Logging Results
@@ -29,9 +31,9 @@ In this post, we aim to demonstrate how MLFlow can be used within Fabric. We'll 
 
 MLFlow can be seen, in a very simplified way, as a database and a set of utility functions to interact with that database. This is where the information about the experiments will be neatly stored. In Fabric, the underlying part of MLFlow is taken care of.
 
-There are two main organisational structures in MLFlow - **experiments** and **runs**. An experiment is a group of runs. A run, put simply, is an execution of a code snippet. Often, this code snippet is a training of a model. An experiment is ideal to group runs that are related.
+There are two main organisational structures in MLFlow - **experiments** and **runs**. An experiment is a group of runs, which put simply, is an execution of a code snippet. Often, this code snippet is when we train a model, but it can also be used to track anything where things might change between runs. An experiment is then a way group related runs together.
 
-For each run, information can be logged and attached to it - for example, metrics, hyperparameters, tags, artifacts (sort of like files, useful for special plots saved as images), and even models! Attaching models to runs is fantastic, especially when registering the model in (something that we'll go deeper into in the next post).
+For each run, information can be logged and attached to it - these could be metrics, hyperparameters, tags, artifacts (sort of like files, useful for special plots saved as images), and even models! By attaching models to runs, we can keep track of which model was used in which run, and how it performed, and can be seen as source control for models. This something that we'll go deeper into in the next post.
 
 Runs can be filtered and compared. This allows us to understand which runs were more sucessful, and select the best performing run and use its setup (for example, in deployment).
 Keep in mind, in Fabric, it seems that runs from different experiments can't be compared.
@@ -42,9 +44,9 @@ Knowing this, it's time to get practical!
 
 As mentioned in the first post of this series, using the UI to create an Experiment is straightforward - we have to select Experiment from the **+ New** button, and choose a name.
 
-![Creating an Experiment using the UI. Shows mouse hovering experiment, with + New dropdown open](./images/exp/exp-1.png "Fig. 1 - Creating an Experiment using the UI")
+![Creating an Experiment using the UI. Shows mouse hovering experiment, with + New dropdown open](./images/exp-1.png "Fig. 1 - Creating an Experiment using the UI")
 
-Once that is done, to use that Experiment in a Notebook, this command has to be added:
+Once that is done, to use that Experiment in a Notebook, we need to `import mlflow` and set up the experiment name:
 ```python
 import mlflow
 
