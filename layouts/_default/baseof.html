@@ -26,7 +26,7 @@
   {{ if and (templates.Exists $hero) (.IsHome) }}
   {{ partial $hero . }}
   {{ end }}
-  <div class="relative flex flex-col grow max-w-[64rem] ml-auto mr-auto sm:px-14 md:px-24 lg:px-32" style="padding-top: 10rem;">
+  <div class="relative flex flex-col grow max-w-[64rem] ml-auto mr-auto sm:px-14 md:px-24 lg:px-32" style="padding: 10rem 24px 0 24px;">
     <main id="main-content" class="grow">
       {{ block "main" . }}{{ end }}
       {{ if and (.Site.Params.footer.showScrollToTop | default true) (gt .WordCount 1) }}
