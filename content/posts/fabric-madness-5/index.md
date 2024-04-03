@@ -5,7 +5,6 @@ draft: true
 showAuthor: true
 authors:
   - "martimchaves"
-  - "rogernoble"
 tags:
   - "Microsoft Fabric"
   - "Models"
