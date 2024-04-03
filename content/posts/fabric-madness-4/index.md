@@ -1,6 +1,6 @@
 ---
 title: "Fabric Madness: Experiments"
-summary: "In this series of posts titled Fabric Madness, we're going to be diving deep into some of the most interesting features of Microsoft Fabric, for an end-to-end demonstration of how to train and use a machine learning model."
+summary: "Machine Learning Systems usually require carefull tuning of its parts. Be it the features being used, the model, the model's hyperparameters, etc... Often, improving the performance of a system is done in an **experimental** way, trying out different configurations, and seeing which one works best."
 date: 2024-03-29T11:37:43Z
 draft: true
 showAuthor: true
