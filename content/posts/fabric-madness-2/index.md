@@ -152,7 +152,7 @@ boxscore_cols = [
 ```
 Note that in the detailed results, for each match, there were statistics for Team 1 (T1) and Team 2 (T2). For each game there are two rows, so that both teams, for each game, can be T1 and T2. This will be important later on.
 
-From there, a dictionary of *aggregation expressions* was created. Basically, for each column name in the previous list of columns, a function was stored that would calculate the mean of the column, and add rename it, by adding a suffix, "mean".
+From there, a dictionary of *aggregation expressions* was created. Basically, for each column name in the previous list of columns, a function was stored that would calculate the mean of the column, and rename it, by adding a suffix, "mean".
 
 
 ```python
