@@ -16,9 +16,9 @@ series_order: 2
 
 ## Introduction
 
-Feature Engineering is crucial in the development of Machine Learning (ML) systems. It is a step in the development cycle where raw data is processed to better represent the underlying structure of the problem at hand. As the name dictates, the aim is to create, engineer, something that represents the data - features! It is both an art and a science. Even though there are specific steps that we can take to create good features, sometimes, it is only through experimentation that good results are achieved. Good features are crucial in guaranteeing a good system performance.
+Feature Engineering is crucial in the development of Machine Learning (ML) systems. It is a step in the development cycle where raw data is processed to better represent its underlying structure. As the name dictates, the aim is to create, engineer, something that represents the data - features! It is both an art and a science. Even though there are specific steps that we can take to create good features, sometimes, it is only through experimentation that good results are achieved. Good features are crucial in guaranteeing a good system performance.
 
-As datasets grow exponentially, traditional feature engineering may struggle with the size of very large datasets. This is where PySpark can help - it can allow for a scalable and efficient processing of massive datasets. Another great thing about Fabric is that it makes using PySpark is very straighforward.
+As datasets grow exponentially, traditional feature engineering may struggle with the size of very large datasets. This is where PySpark can help - it can allow for a scalable and efficient processing of massive datasets. A great thing about Fabric is that it makes using PySpark very straighforward.
 
 In this post, we'll be going over:
 - How does PySpark Work?
@@ -29,17 +29,17 @@ By the end of this post, hopefully you'll feel confortable carrying out feature 
 
 ## How does PySpark Work?
 
-PySpark is the Python API for Spark. So, it makes sense to first go into what Spark is. It is a tool to process and analyse large amounts of data quickly. Put simply, it distributes data across many machines, allowing us to process data in parallel, instead of running processing steps in a single machine. These machines, that process the data, form what is called a "Spark Cluster". PySpark acts as an interface for what Spark provides, such as Spark DataFrames.
+PySpark is the Python API for Spark. So, it makes sense to first go into what Spark is. It is a tool to process and analyse large amounts of data quickly. Put simply, it distributes data across many machines, allowing us to process data in parallel, instead of in a single machine. These machines, that process the data, form what is called a "Spark Cluster". The more data we have, the more it makes sense to use Spark. PySpark acts as an interface for what Spark provides, such as Spark DataFrames.
 
 Spark DataFrames are similar to Pandas DataFrames, as they're both Tables. But, there's a big difference - under the hood, Spark takes care of distributing the Spark DataFrame's rows across the available machines in a Spark Cluster.
 
-At the core of PySpark is the `SparkSession` object, which is what fundamentally interacts with Spark. This `SparkSession` is what allows for the creation of DataFrames, and other functionalities. Note that, when running a Notebook in Fabric, a SparkSession is automatically created!
+At the core of PySpark is the `SparkSession` object, which is what fundamentally interacts with Spark. This `SparkSession` is what allows for the creation of DataFrames, and other functionalities. Note that, when running a Notebook in Fabric, a `SparkSession` is automatically created!
 
 Having a rough idea of how PySpark works, let's get to the basics.
 
 ## Basics of PySpark
 
-Although Spark DataFrames may remind us of Pandas DataFrames due to their similarities, the syntax when using Spark can be a bit different. Sometimes, it sort of resembles SQL code!
+Although Spark DataFrames may remind us of Pandas DataFrames due to their similarities, the syntax when using PySpark can be a bit different. Sometimes, it sort of resembles SQL code!
 
 ### Reading data
 
@@ -57,7 +57,9 @@ w_data = (
 )
 ```
 
-In this code snippet, we're reading the Detailed Results of the final women's basketball college tournament matches. It's not needed to either import or start the Spark session, that's done automatically. Note that the "header" option being true means that the names of the columns will be derived from the first row of the CSV file. The "inferSchema" option tells Spark to guess the data types of the columns - otherwise they would all be read as strings. `.cache()` is used to keep the DataFrame in memory.
+In this code snippet, we're reading the Detailed Results of the final women's basketball college tournament matches. It's not needed to either import or start the Spark session, that's done automatically. Note that the `"header"` option being true means that the names of the columns will be derived from the first row of the CSV file. The `"inferSchema"` option tells Spark to guess the data types of the columns - otherwise they would all be read as strings. `.cache()` is used to keep the DataFrame in memory.
+
+If you're coming from Pandas, you may be wondering what the equivalent of `df.head()` is for PySpark - it's `df.show(5)`. The default for `.show()` is the top 20 rows, hence the need to specifically select 5. 
 
 ### Combining DataFrames
 
@@ -79,7 +81,7 @@ m_data = (
 combined_results = m_data.unionByName(w_data)
 ```
 
-Here, `unionByName` joins the two DataFrames by matching the names of the column. There's also `union`, which combines two Dataframes, matching column positions.
+Here, `unionByName` joins the two DataFrames by matching the names of the columns. Since both the women's and the men's *detailed match results* have the same columns, this is a good approach. Alternatively, there's also `union`, which combines two Dataframes, matching column positions.
 
 ### Selecting Columns
 
@@ -87,10 +89,24 @@ Selecting columns from a DataFrame in PySpark can be done using the `.select()` 
 
 ```python
 # Selecting a single column
-team_names = w_data.select("WScore")
+w_scores = w_data.select("WScore")
 
 # Selecting multiple columns
-team_info = w_data.select("WTeamID", "WScore")
+teamid_w_scores = w_data.select("WTeamID", "WScore")
+```
+
+Here's the output for `w_scores.show(5)`:
+```
++------+
+|Season|
++------+
+|  2010|
+|  2010|
+|  2010|
+|  2010|
+|  2010|
++------+
+only showing top 5 rows
 ```
 
 The columns can also be renamed when being selected using the `.alias()` method:
@@ -110,18 +126,32 @@ Grouping allows us to carry out certain operations for the groups that exist wit
 winners_average_scores = winners.groupBy("TeamID").avg("Score")
 ```
 
-In this example, we got the average score for each team!
+In this example, we are grouping by `"TeamID"`, meaning we're considering the groups of rows that have a distinct value for `"TeamID"`. For each of those groups, we're calculating the average of the `"Score"`. This way, we get the average score for each team!
+
+Here's the output of `winners_average_scores.show(5)`, showing the average score of each team:
+
+```
++------+-----------------+
+|TeamID|       avg(Score)|
++------+-----------------+
+|  3125|             68.5|
+|  3345|             74.2|
+|  3346|79.66666666666667|
+|  3376|73.58333333333333|
+|  3107|             61.0|
++------+-----------------+
+```
 
 ### Joining Data
 
-Joining two DataFrames can be done using the `.join()` method.
+Joining two DataFrames can be done using the `.join()` method. Joining is essentially adding the columns of one DataFrame to another.
 
 ```python
 # Joining on Season and TeamID
 final_df = matches_df.join(stats_df, on=['Season', 'TeamID'], how='left')
 ```
 
-In this example, both `stats_df` and `matches_df` were using `Season` and `TeamID` as unique identifiers. Besides `Season` and `TeamID`, `stats_df` has other columns, such as statistics for each team during each season, whereas `matches_df` has information about the matches, such as date and location. This operation allows us to add those interesting statistics to the matches information!
+In this example, both `stats_df` and `matches_df` were using `Season` and `TeamID` as unique identifiers for each row. Besides `Season` and `TeamID`, `stats_df` has other columns, such as statistics for each team during each season, whereas `matches_df` has information about the matches, such as date and location. This operation allows us to add those interesting statistics to the matches information!
 
 ### Functions
 
@@ -140,17 +170,31 @@ In the code snippet above, a "HighScore" column is created when the score is hig
 
 Now that we have a basic understanding of PySpark and how it can be used, let's go over how the Regular Season Statistics features were created! These features were then used to try to predict the outcome of the Final Tournament games.
 
-The first step was selecting which columns would be used. These were columns that contained in-game statistics such as Field Goals Made (FGM) and Offensive Rebounds (OR).
+The starting point was a DataFrame, `regular_data`, that contained match by match statistics for the *regular seasons*, which is the United States College Basketball Season that happens from November to March each year.
+
+Each row in this DataFrame contained the season, the day the match was held, the ID of team 1, the ID of team 2, and other information such as the location of the match. Importantly, it also contained statistics for *each team* for that *specific match*, such as "T1_FGM", meaning the Field Goals Made (FGM) for team 1, or "T2_OR", meaning the Offensive Rebounds (OR) of team 2. 
+
+The first step was selecting which columns would be used. These were columns that strictly contained in-game statistics.
 
 ```python
 # Columns that we'll want to get statistics from
 boxscore_cols = [
-    'T1_FGM', 'T1_FGA', 'T1_FGM3', 'T1_FGA3', 'T1_OR', 'T1_Ast', 'T1_TO', 'T1_Stl', 'T1_PF', 
-    'T2_FGM', 'T2_FGA', 'T2_FGM3', 'T2_FGA3', 'T2_OR', 'T2_Ast', 'T2_TO', 'T2_Stl', 'T2_Blk',  
-    'PointDiff'
+    'T1_FGM', 'T1_FGA', 'T1_FGM3', 'T1_FGA3', 'T1_OR', 'T1_DR', 'T1_Ast', 'T1_Stl', 'T1_PF', 
+    'T2_FGM', 'T2_FGA', 'T2_FGM3', 'T2_FGA3', 'T2_OR', 'T2_DR', 'T2_Ast', 'T2_Stl', 'T2_PF'
 ]
 ```
-Note that in the detailed results, for each match, there were statistics for Team 1 (T1) and Team 2 (T2). For each game there are two rows, so that both teams, for each game, can be T1 and T2. This will be important later on.
+
+If you're interested, here's what each statistic's code means:
+- FGM: Field Goals Made
+- FGA: Field Goals Attempted
+- FGM3: Field Goals Made from the 3-point-line
+- FGA3: Field Goals Attempted for 3-point-line goals
+- OR: Offensive Rebounds. A rebounds is when the ball rebounds from the board when a goal is attempted, not getting in the net. If the team that *attempted* the goal gets possession of the ball, it's called an "Offensive" rebound. Otherwise, it's called a "Defensive" Rebound.
+- DR: Defensive Rebounds
+- Ast: Assist, a pass that led directly to a goal
+- Stl: Steal, when the possession of the ball is stolen
+- PF: Personal Foul, when a player makes a foul
+
 
 From there, a dictionary of *aggregation expressions* was created. Basically, for each column name in the previous list of columns, a function was stored that would calculate the mean of the column, and rename it, by adding a suffix, "mean".
 
@@ -162,13 +206,13 @@ from pyspark.sql.functions import col  # select a column
 agg_exprs = {col: F.mean(col).alias(col + 'mean') for col in boxscore_cols}
 ```
 
-Then, the data was grouped by "Season" and "TeamID", and the aggregation functions of the previously created dictionary were used as the argument for the `.agg()`. Note that `(*agg_exprs.values())` is the same as `(F.mean('T1_FGM').alis('T1_FGMmean'), F.mean('T1_FGA').alis('T1_FGAmean'), ...)`.
+Then, the data was grouped by `"Season"` and `"T1_TeamID"`, and the aggregation functions of the previously created dictionary were used as the argument for `.agg()`. Note that `(*agg_exprs.values())` is the same as `(F.mean('T1_FGM').alias('T1_FGMmean'), F.mean('T1_FGA').alias('T1_FGAmean'), ..., F.mean('T2_PF').alias('T2_PFmean'))`.
 
 ```python
 season_statistics = regular_data.groupBy(["Season", "T1_TeamID"]).agg(*agg_exprs.values())
 ```
 
-Note that the grouping was done by "Season" and "**T1**_TeamID" - this means that "T2_FGAmean", for example, will actually be the mean of the Field Goals Assists made by the opponents of the T1, not necessarily of a specific team. So, we actually need to rename the columns that have "T2_FGAmean" to something like "T1_opponent_FGAmean".
+Note that the grouping was done by season and and the **ID of team 1** - this means that `"T2_FGAmean"`, for example, will actually be the mean of the Field Goals Attempted made by the **opponents** of T1, not necessarily of a specific team. So, we actually need to rename the columns that are something like `"T2_FGAmean"` to something like `"T1_opponent_FGAmean"`.
 
 ```python
 # Rename columns for T1
@@ -177,7 +221,9 @@ for col in boxscore_cols:
         else season_statistics.withColumnRenamed(col + 'mean', 'T1_opponent_' + col[3:] + 'mean')
 ```
 
-Finally, at this point we "only" have the statistics for "T1". We "need" the statistics for "T2" - "need" in quotations because there are no new statistics being calculated. We just need the same data, but with the columns having different names, so that for a match with "T1" and "T2", we have statistics for both T1 and T2. So we create a mirror DataFrame, where instead of "T1...mean" and "T1_opponent_...mean", we have "T2...mean" and "T2_opponent_...mean":
+At this point, it's important to mention that `regular_data` DataFrame actually has **two** rows per each match that occurred. This is so that both teams can be "T1" and "T2", for each match. This little "trick" is what makes these statistics usefull.
+
+Note that we "only" have the statistics for "T1". We "need" the statistics for "T2" as well - "need" in quotations because there are no new statistics being calculated. We just need the same data, but with the columns having different names, so that for a match with "T1" and "T2", we have statistics for both T1 and T2. So, we created a mirror DataFrame, where, instead of "T1...mean" and "T1_opponent_...mean", we have "T2...mean" and "T2_opponent_...mean". This is important because, later on, when we're joining these regular season statistics to tournament matches, we'll be able to have statistics for both team 1 **and** team 2.
 
 ```python
 season_statistics_T2 = season_statistics.select(
@@ -192,6 +238,12 @@ tourney_df = tourney_df.join(season_statistics, on=['Season', 'T1_TeamID'], how=
 tourney_df = tourney_df.join(season_statistics_T2, on=['Season', 'T2_TeamID'], how='left')
 ```
 
+### Value Added
+
+The feature engineering step demonstrated shows how we can turn raw data - regular season statistics - into valuable information that can have predictive power. It is plausible to assume that the performance of a team during the regular seasons can be indicative of its performance during the final tournaments. Thus, by calculating the mean of the statistics that were observed on a match by match basis during the regular season, for both the teams themselves and their opponents, we were able to create a dataset suitable for modeling! After this, models were trained to predict the score of a tournament match using these features, among others created in a similar fashion. Having that model, we only then need the two team IDs to lookup the mean of their regular season statistics to feed into the model and predict a score!
+
+### Comparing PySpark and Pandas Run Times
+
 ## Conclusion
 
-In this post, we've looked at the some of the theory behind Spark and PySpark, how that can be applied, and a concrete practical example. We've explored how feature engineering can be done in the case of sports data, creating regular season statistics to use as features for the final tournament games. Hopefully you've found this interesting and helpful - happy feature engineering!
+In this post, we've looked at the some of the theory behind Spark and PySpark, how that can be applied, and a concrete practical example. We've explored how feature engineering can be done in the case of sports data, creating regular season statistics to use as features for  final tournament games. Hopefully you've found this interesting and helpful - happy feature engineering!
