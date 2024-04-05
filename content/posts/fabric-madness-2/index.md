@@ -242,8 +242,6 @@ tourney_df = tourney_df.join(season_statistics_T2, on=['Season', 'T2_TeamID'], h
 
 The feature engineering step demonstrated shows how we can turn raw data - regular season statistics - into valuable information that can have predictive power. It is plausible to assume that the performance of a team during the regular seasons can be indicative of its performance during the final tournaments. Thus, by calculating the mean of the statistics that were observed on a match by match basis during the regular season, for both the teams themselves and their opponents, we were able to create a dataset suitable for modeling! After this, models were trained to predict the score of a tournament match using these features, among others created in a similar fashion. Having that model, we only then need the two team IDs to lookup the mean of their regular season statistics to feed into the model and predict a score!
 
-### Comparing PySpark and Pandas Run Times
-
 ## Conclusion
 
-In this post, we've looked at the some of the theory behind Spark and PySpark, how that can be applied, and a concrete practical example. We've explored how feature engineering can be done in the case of sports data, creating regular season statistics to use as features for  final tournament games. Hopefully you've found this interesting and helpful - happy feature engineering!
+In this post, we looked at some of the theory behind Spark and PySpark, how that can be applied, and a concrete practical example. We explored how feature engineering can be done in the case of sports data, creating regular season statistics to use as features for  final tournament games. Hopefully you've found this interesting and helpful - happy feature engineering!
