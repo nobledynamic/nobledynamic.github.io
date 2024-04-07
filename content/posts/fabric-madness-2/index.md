@@ -1,12 +1,11 @@
 ---
 title: "Fabric Madness: Feature Engineering with pyspark"
 summary: "In this series of posts titled Fabric Madness, we're going to be diving deep into some of the most interesting features of Microsoft Fabric, for an end-to-end demonstration of how to train and use a machine learning model."
-date: 2024-03-27T11:37:43Z
+date: 2024-04-06T11:37:43Z
 draft: true
 showAuthor: true
 authors:
   - "martimchaves"
-  - "rogernoble"
 tags:
   - "Microsoft Fabric"
   - "Spark"
@@ -16,7 +15,7 @@ series_order: 2
 
 ## Introduction
 
-Feature Engineering is crucial in the development of Machine Learning (ML) systems. It is a step in the development cycle where raw data is processed to better represent its underlying structure. As the name dictates, the aim is to create, engineer, something that represents the data - features! It is both an art and a science. Even though there are specific steps that we can take to create good features, sometimes, it is only through experimentation that good results are achieved. Good features are crucial in guaranteeing a good system performance.
+Feature Engineering is a crucial part of the development lifecycle for any Machine Learning (ML) systems. It is a step in the development cycle where raw data is processed to better represent its underlying structure. As the name dictates, the aim is to create, engineer, something that represents the data - features! It is both an art and a science. Even though there are specific steps that we can take to create good features, sometimes, it is only through experimentation that good results are achieved. Good features are crucial in guaranteeing a good system performance.
 
 As datasets grow exponentially, traditional feature engineering may struggle with the size of very large datasets. This is where PySpark can help - it can allow for a scalable and efficient processing of massive datasets. A great thing about Fabric is that it makes using PySpark very straighforward.
 
