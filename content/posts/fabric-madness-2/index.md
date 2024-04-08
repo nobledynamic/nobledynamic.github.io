@@ -167,6 +167,8 @@ In the code snippet above, a "HighScore" column is created when the score is hig
 
 ## Feature Engineering in Action
 
+### Regular Season Statistics
+
 Now that we have a basic understanding of PySpark and how it can be used, let's go over how the Regular Season Statistics features were created! These features were then used to try to predict the outcome of the Final Tournament games.
 
 The starting point was a DataFrame, `regular_data`, that contained match by match statistics for the *regular seasons*, which is the United States College Basketball Season that happens from November to March each year.
@@ -237,9 +239,124 @@ tourney_df = tourney_df.join(season_statistics, on=['Season', 'T1_TeamID'], how=
 tourney_df = tourney_df.join(season_statistics_T2, on=['Season', 'T2_TeamID'], how='left')
 ```
 
+### Elo Ratings
+
+First created by Arpad Elo, Elo is a rating system for zero-sum games (games where one player wins and the other loses), like basketball. With the Elo rating system, each team has an Elo rating, a value that generally conveys the team's quality. At first, every team has the same Elo, and whenever they win, their Elo increases, and when they lose, their Elo decreases. A key characteristic of this system is that this value increases more with a win against a strong opponent than with a win againsta a weak opponent. Thus, it can be a very useful feature to have!
+
+We wanted to capture the Elo rating of a team at the end of the regular season, and use that as feature for the tournament. To do this, we calculated the Elo for each team on a per match basis. For this feature, we found it more straightforward to use Pandas.
+
+Central to Elo is calculating the expected score for each team. It can be described in code like so:
+
+```python
+# Function to calculate expected score
+def expected_score(ra, rb):
+    # ra = rating (Elo) team A
+    # rb = rating (Elo) team B
+    # Elo function
+    return 1 / (1 + 10 ** ((rb - ra) / 400))
+```
+
+Considering a team A and a team B, this function computes the expected score of team A against team B.
+
+For each match, we would update the teams' Elos. Note that the location of the match also played a part - winning at home was considered less impressive than winning away.
+
+```python
+# Function to update Elo ratings, keeping T1 and T2 terminology
+def update_elo(t1_elo, t2_elo, location, T1_Score, T2_Score):
+    expected_t1 = expected_score(t1_elo, t2_elo)
+    expected_t2 = expected_score(t2_elo, t1_elo)
+    
+    actual_t1 = 1 if T1_Score > T2_Score else 0
+    actual_t2 = 1 - actual_t1
+
+    # Determine K based on game location
+    # The larger the K, the bigger the impact
+    # team1 winning at home (location=1) less impressive than winning away (location = -1)
+    if actual_t1 == 1:  # team1 won
+        if location == 1:
+            k = 20
+        elif location == 0:
+            k = 30
+        else:  # location = -1
+            k = 40
+    else:  # team2 won
+        if location == 1:
+            k = 40
+        elif location == 0:
+            k = 30
+        else:  # location = -1
+            k = 20
+    
+    new_t1_elo = t1_elo + k * (actual_t1 - expected_t1)
+    new_t2_elo = t2_elo + k * (actual_t2 - expected_t2)
+    
+    return new_t1_elo, new_t2_elo
+```
+
+To apply the Elo rating system, we iterated through each season's matches, initializing teams with a base rating and updating their ratings match by match. The final Elo available for each team in each season will, hopefully, be a good descriptor of the team's quality.
+
+```python
+
+def calculate_elo_through_seasons(regular_data):
+
+    # For this feature, using Pandas
+    regular_data = regular_data.toPandas()
+    
+    # Set value of initial elo
+    initial_elo = 1500
+
+    # DataFrame to collect final Elo ratings
+    final_elo_list = []
+
+    for season in sorted(regular_data['Season'].unique()):
+        print(f"Season: {season}")
+        # Initialize elo ratings dictionary
+        elo_ratings = {}
+
+        print(f"Processing Season: {season}")
+        # Get the teams that played in the season
+        season_teams = set(regular_data[regular_data['Season'] == season]['T1_TeamID']).union(set(regular_data[regular_data['Season'] == season]['T2_TeamID']))
+        
+        # Initialize season teams' Elo ratings
+        for team in season_teams:
+            if (season, team) not in elo_ratings:
+                elo_ratings[(season, team)] = initial_elo
+
+        # Update Elo ratings per game
+        season_games = regular_data[regular_data['Season'] == season]
+        for _, row in season_games.iterrows():
+            t1_elo = elo_ratings[(season, row['T1_TeamID'])]
+            t2_elo = elo_ratings[(season, row['T2_TeamID'])]
+
+            new_t1_elo, new_t2_elo = update_elo(t1_elo, t2_elo, row['location'], row['T1_Score'], row['T2_Score'])
+            
+            # Only keep the last season rating
+            elo_ratings[(season, row['T1_TeamID'])] = new_t1_elo
+            elo_ratings[(season, row['T2_TeamID'])] = new_t2_elo
+
+        # Collect final Elo ratings for the season
+        for team in season_teams:
+            final_elo_list.append({'Season': season, 'TeamID': team, 'Elo': elo_ratings[(season, team)]})
+
+    # Convert list to DataFrame
+    final_elo_df = pd.DataFrame(final_elo_list)
+
+    # Separate DataFrames for T1 and T2
+    final_elo_t1_df = final_elo_df.copy().rename(columns={'TeamID': 'T1_TeamID', 'Elo': 'T1_Elo'})
+    final_elo_t2_df = final_elo_df.copy().rename(columns={'TeamID': 'T2_TeamID', 'Elo': 'T2_Elo'})
+
+    # Convert the pandas DataFrames back to Spark DataFrames
+    final_elo_t1_df = spark.createDataFrame(final_elo_t1_df)
+    final_elo_t2_df = spark.createDataFrame(final_elo_t2_df)
+
+    return final_elo_t1_df, final_elo_t2_df
+```
+
+Ideally, we wouldn't calculate Elo changes on a match-by-match basis to determine each team's final Elo for the season. However, we couldn't come up with a better approach. Do you have any ideas? If so, let us know!
+
 ### Value Added
 
-The feature engineering step demonstrated shows how we can turn raw data - regular season statistics - into valuable information that can have predictive power. It is plausible to assume that the performance of a team during the regular seasons can be indicative of its performance during the final tournaments. Thus, by calculating the mean of the statistics that were observed on a match by match basis during the regular season, for both the teams themselves and their opponents, we were able to create a dataset suitable for modeling! After this, models were trained to predict the score of a tournament match using these features, among others created in a similar fashion. Having that model, we only then need the two team IDs to lookup the mean of their regular season statistics to feed into the model and predict a score!
+The feature engineering steps demonstrated show how we can transform raw data - regular season statistics - into valuable information with predictive power. It is reasonable to assume that a team's performance during the regular season is indicative of its potential performance in the final tournaments. By calculating the mean of observed match-by-match statistics for both the teams and their opponents, along with each team's Elo rating in their final match, we were able to create a dataset suitable for modeling. Then, models were trained to predict the outcome of tournament matches using these features, among others developed in a similar way. With these models, we only need the two team IDs to look up the mean of their regular season statistics and their Elos to feed into the model and predict a score!
 
 ## Conclusion
 
