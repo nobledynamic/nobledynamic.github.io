@@ -2,7 +2,7 @@
 title: "Fabric Madness: Feature Engineering with pyspark"
 summary: "In this series of posts titled Fabric Madness, we're going to be diving deep into some of the most interesting features of Microsoft Fabric, for an end-to-end demonstration of how to train and use a machine learning model."
 date: 2024-04-08T09:37:43Z
-draft: true
+draft: false
 showAuthor: true
 authors:
   - "martimchaves"
