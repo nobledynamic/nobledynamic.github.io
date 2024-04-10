@@ -1,6 +1,6 @@
 ---
 title: "Fabric Madness: Feature Engineering with pyspark"
-summary: "In this series of posts titled Fabric Madness, we're going to be diving deep into some of the most interesting features of Microsoft Fabric, for an end-to-end demonstration of how to train and use a machine learning model."
+summary: "In part 2 of this series we dive deeper into the process of feature engineering."
 date: 2024-04-08T09:37:43Z
 draft: false
 showAuthor: true
@@ -14,6 +14,8 @@ series_order: 2
 ---
 
 ## Introduction
+
+In our [previous post](/posts/fabric-madness-1/) we took a high level view of how to train a machine learning model in Microsoft Fabric. In this post we wanted to dive deeper into the process of feature engineering.
 
 Feature engineering is a crucial part of the development lifecycle for any Machine Learning (ML) systems. It is a step in the development cycle where raw data is processed to better represent its underlying structure and provide additional information that enhance our ML models. Feature engineering is both an art and a science. Even though there are specific steps that we can take to create good features, sometimes, it is only through experimentation that good results are achieved. Good features are crucial in guaranteeing a good system performance.
 
@@ -40,9 +42,12 @@ Having a rough idea of how PySpark works, let's get to the basics.
 
 Although Spark DataFrames may remind us of Pandas DataFrames due to their similarities, the syntax when using PySpark can be a bit different. In this section, we'll go over some of the basics of PySpark, such as reading data, combining DataFrames, selecting columns, grouping data, joining DataFrames, and using functions.
 
+### The Data
+The data we are looking at is from the 2024 US college basketball tournaments, which was obtained from the on-going March Machine Learning Mania 2024 Kaggle competition, the details of which can be found [here](https://medium.com/r/?url=https%3A%2F%2Fwww.kaggle.com%2Fcompetitions%2Fmarch-machine-learning-mania-2024%2Foverview), and is licensed under CC BY 4.0
+
 ### Reading data
 
-As mentioned in the previous post of this series, the first step is usually to create a Lakehouse and upload some data. Then, when creating a Notebook, we can attach it to the created Lakehouse, and we'll have access to the data stored there.
+As mentioned in the [previous post](/posts/fabric-madness-1/) of this series, the first step is usually to create a Lakehouse and upload some data. Then, when creating a Notebook, we can attach it to the created Lakehouse, and we'll have access to the data stored there.
 
 PySpark Dataframes can read various data formats, such as CSV, JSON, Parquet, and others. Our data is stored in CSV format, so we'll be using that, like in the following code snippet:
 
