@@ -1,7 +1,7 @@
 ---
 title: "Fabric Madness: Models"
-summary: "A Model Registry can be seen as a catalog of ML Models and in Fabric, ML Model is a a wrapper for the MLFlow Model Registry, which allows us to register models and keep track of different versions and their respective performances."
-date: 2024-03-30T11:37:43Z
+summary: "Our fifth and final post in the Fabric series. A Model Registry can be seen as a catalog of ML Models and in Fabric, which allows us to register models and keep track of different versions and their respective performances."
+date: 2024-04-15T11:40:43Z
 draft: true
 showAuthor: true
 authors:
@@ -12,6 +12,7 @@ tags:
 series: ["Fabric Madness"]
 series_order: 5
 ---
+
 
 ## Introduction
 
