@@ -17,6 +17,7 @@ In the previous post, we discussed how to use Notebooks with pyspark for feature
 
 ## What is Dataflow Gen2?
 
+<<<<<<< HEAD
 Dataflow Gen2 is a low code data transformation and integration engine that allows you to create data pipelines for loading data from a wide variety of sources into Microsoft Fabric. It's based on Power Query, which intergrated into many Microsoft products, such as Excel, Power BI, and Azure Data Factory. Dataflow Gen2 is a great tool for creating data pipelines wihtout code via a visual interface, making it easy to create data pipelines quickly. If you are already familiar with Power Query or are not afraid of writing code, you can also use the underlying M ("Mashup") language to create more complex transformations.
 <<<<<<< HEAD
 
@@ -159,6 +160,9 @@ As you can see, the LoadTournamentData function is invoked with the parameter "R
 Dataflow Gen2 is a service that allows you to create data pipelines without writing any code. It is a low code solution that allows you to create data pipelines using a visual interface. It is a great tool for data engineers who are not familiar with coding or for those who want to quickly create data pipelines without writing any code.
 =======
 >>>>>>> 640e578 (Initial draft)
+=======
+Dataflow Gen2 is a low code data transformation and integration engine that allows you to create data pipelines for loading data from a wide variety of sources into Microsoft Fabric. It's based on Power Query, which integrated into many Microsoft products, such as Excel, Power BI, and Azure Data Factory. Dataflow Gen2 is a great tool for creating data pipelines without code via a visual interface, making it easy to create data pipelines quickly. If you are already familiar with Power Query or are not afraid of writing code, you can also use the underlying M ("Mashup") language to create more complex transformations.
+>>>>>>> 024349d3b300062344bc83f1c8a2f46b95b1d0c2
 
 In this post, we will walk through how to use Dataflow Gen2 to create the same features needed to train our machine learning model. We will use the same dataset as in the previous post, which contains data about college basketball games.
 
