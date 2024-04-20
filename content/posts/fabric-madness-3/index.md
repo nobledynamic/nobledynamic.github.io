@@ -1,6 +1,6 @@
 ---
 title: "Fabric Madness: Feature Engineering with Dataflow Gen2"
-summary: "In part 3 of this series we look again at feature engineering, this time with Dataflow Gen2."
+summary: "In part 3 of this series we look again at feature engineering, this time with Dataflow Gen2; a low code data transformation and integration engine."
 date: 2024-04-15T11:37:43Z
 draft: false
 showAuthor: true
