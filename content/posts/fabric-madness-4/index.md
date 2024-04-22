@@ -1,8 +1,8 @@
 ---
 title: "Fabric Madness: Experiments"
 summary: "Part 4 of our series on Fabric, this time looking at experiments, a tool that allows for iterative development of Machine Learning Systems in an experimental way."
-date: 2024-04-19T11:38:43Z
-draft: true
+date: 2024-04-22T11:38:43Z
+draft: false
 showAuthor: true
 authors:
   - "martimchaves"
@@ -18,16 +18,16 @@ It's no secret that Machine Learning (ML) systems require careful tuning to beco
 
 When first starting out on your ML journey, an easy trap to fall into is to try lots of different things to improve performance, but not recording these configurations along the way. This then makes it difficult to know which configuration (or combination of configurations) had the best performance.
 
-When developing out models, there are lots of "knobs" and "levers" that can be adjusted, and often the best way to improve is to try different configurations and see which one works best. These things include the [improving features being used](/posts/fabric-madness-2/), trying differnt model architectures, adjusting the model's hyperparameters, and others. Experimentation needs to be systematic, and the results need to be logged. That's why having a good setup to carry out these experiments is fundamental in the development of any practical ML System, in the same way that source control is fundamental for code.
+When developing models, there are lots of "knobs" and "levers" that can be adjusted, and often the best way to improve is to try different configurations and see which one works best. These things include the [improving features being used](/posts/fabric-madness-2/), trying different model architectures, adjusting the model's hyperparameters, and others. Experimentation needs to be systematic, and the results need to be logged. That's why having a good setup to carry out these experiments is fundamental in the development of any practical ML System, in the same way that source control is fundamental for code.
 
 This is where *experiments* come in to play. Experiments are a way to keep track of these different configurations, and the results that come from them.
 
-What's great about Experiments in Fabric is that they are actually a wrapper for [MLFlow](https://mlflow.org/), a hugely popular, open-source platform for managing the end-to-end machine learning lifecycle. This means that we can use all of the great features that MLFlow has to offer, but with the added benefit of not having to worry about setting up the infrastructure that a collaborative MLFlow environment would require. This allows us to focus on the fun stuff 😎!
+What's great about experiments in Fabric is that they are actually a wrapper for [MLFlow](https://mlflow.org/), a hugely popular, open-source platform for managing the end-to-end machine learning lifecycle. This means that we can use all of the great features that MLFlow has to offer, but with the added benefit of not having to worry about setting up the infrastructure that a collaborative MLFlow environment would require. This allows us to focus on the fun stuff 😎!
 
-In this post, we'll be going over how to use experiments in Fabric, and how to log and analyse the results of these experiments. Specifically, we'lll cover:
+In this post, we'll be going over how to use experiments in Fabric, and how to log and analyse the results of these experiments. Specifically, we'll cover:
 - How does MLFlow work?
-- Creating and Setting Experiments
-- Running Experiments and Logging Results
+- Creating and Setting experiments
+- Running experiments and Logging Results
 - Analysing Results
 
 ## How does MLFlow work?
@@ -44,13 +44,13 @@ Runs can be filtered and compared. This allows us to understand which runs were 
 
 Now that we've covered the basics of how MLFlow works, let's get into how we can use it in Fabric!
 
-## Creating and Setting Experiments
+## Creating and setting experiments
 
 Like everything in Fabric, creating items can be done in a few ways, either from the workspace **+ New** menu, using the Data Science experience or in code. In this case, we'll be using the Data Science experience.
 
 ![Creating an Experiment using the UI. Shows mouse hovering experiment, with + New dropdown open](./images/exp-1_1.png "Fig. 1 - Creating an Experiment using the UI")
 
-Once that is done, to use that Experiment in a Notebook, we need to `import mlflow` and set up the experiment name:
+Once that is done, to use that experiment in a Notebook, we need to `import mlflow` and set up the experiment name:
 ```python
 import mlflow
 
@@ -60,7 +60,7 @@ experiment_name = "[name of the experiment goes here]"
 mlflow.set_experiment(experiment_name)
 ```
 
-Alternatively, an Experiment can be created from code, which requires one extra command:
+Alternatively, an experiment can be created from code, which requires one extra command:
 ```python
 import mlflow
 
@@ -73,7 +73,7 @@ mlflow.create_experiment(name=experiment_name)
 mlflow.set_experiment(experiment_name)
 ```
 
-Note that, if an Experiment with that name already exists, `create_experiment` will throw an error. We can avoid this by first checking for the existence of an Experiment, and only creating it if it doesn't exist:
+Note that, if an experiment with that name already exists, `create_experiment` will throw an error. We can avoid this by first checking for the existence of an experiment, and only creating it if it doesn't exist:
 
 ```python
 # Check if experiment exists
@@ -84,7 +84,7 @@ if not mlflow.get_experiment_by_name(experiment_name):
 
 Now that we have the experiment set in the current context, we can start running code that will be saved to that experiment.
 
-## Running Experiments and Logging Results
+## Running experiments and logging results
 
 To start logging our results to an experiment, we need to start a run. This is done using the `start_run()` function and returns a `run` context manager. Here's an example of how to start a run:
 
@@ -166,7 +166,7 @@ def create_model_large(input_shape):
 
 Creating our models in this way allows us to easily experiment with different architectures, and see how they perform. We can then use a dictionary to create a little *model factory*, that will allow us to easily create the models we want to experiment with.
 
-We also, defined the input shape, which was the number of features that were available. We decided to train the models for 100 epochs, which should be enough for convergence 🤞.
+We also defined the input shape, which was the number of features that were available. We decided to train the models for 100 epochs, which should be enough for convergence 🤞.
 
 ```python
 model_dict = {
@@ -220,14 +220,14 @@ for model_name in model_dict:
 			# Save metrics
 ```
 
-Then, in each run, we initialised a model, compiled it, and trained it. The compilation and training were done in a separate function, which we'll go into next. As we wanted to set the learning rate, we had to manually initialise the Adam optimizer. As our metric we used the Mean Squared Error (MSE) loss function, saving the model with the best validation loss, and logged the training and validation loss to ensure that the model was converging.
+Then, in each run, we initialised a model, compiled it, and trained it. The compilation and training were done in a separate function, which we'll go into next. As we wanted to set the learning rate, we had to manually initialise the Adam optimiser. As our metric we used the Mean Squared Error (MSE) loss function, saving the model with the best validation loss, and logged the training and validation loss to ensure that the model was converging.
 
 ```python
 def compile_and_train(model, X_train, y_train, X_val, y_val, epochs=100, learning_rate=0.001):
-    # Instantiate the Adam optimizer with the desired learning rate
-    optimizer = Adam(learning_rate=learning_rate)
+    # Instantiate the Adam optimiser with the desired learning rate
+    optimiser = Adam(learning_rate=learning_rate)
 
-    model.compile(optimizer=optimizer, loss='mean_squared_error', metrics=['mean_squared_error'])
+    model.compile(optimizer=optimiser, loss='mean_squared_error', metrics=['mean_squared_error'])
     
     # Checkpoint to save the best model according to validation loss
     checkpoint_cb = ModelCheckpoint("best_model.h5", save_best_only=True, monitor='val_loss')
@@ -319,16 +319,16 @@ with mlflow.start_run(run_name=run_name) as run:
 
 For each run we also logged the model, which will be useful later on.
 
-The experiments were ran, creating an experiment for each model, and three different runs for each experiment with each of the learning rates.
+The experiments were run, creating an experiment for each model, and three different runs for each experiment with each of the learning rates.
 
 
-## Analysing Results
+## Analysing results
 
 Now that we've run some experiments, it's time to analyse the results! To do this, we can go back to the workspace, where we'll find our newly created experiments with several runs.
 
 ![Shows the Experiment UI, with several tabs containing varied information.](./images/exp-6.png "Fig. 2 - List of experiments")
 
-Clicking in one experiment, here's what we'll see:
+Clicking on one experiment, here's what we'll see:
 
 ![Shows the Experiment UI, with several tabs containing varied information.](./images/exp-2.png "Fig. 3 - The Experiment UI")
 
@@ -348,12 +348,12 @@ Perhaps we would like to filter the runs - that can be done using **Filters**. F
 
 By doing this, we can visually compare the different runs and assess which configuration led to the best performance. This can also be done using code - this is something that will be further explored in the next post.
 
-Using the Experiment UI, we are then able to visually explore the different experiments and runs, comparing and filtering them as needed, to understand which configuration works best.
+Using the experiment UI, we are then able to visually explore the different experiments and runs, comparing and filtering them as needed, to understand which configuration works best.
 
 ## Conclusion
 
-And that wraps up our exploration of Experiments in Fabric!
+And that wraps up our exploration of experiments in Fabric!
 
-Not only did we cover how to create and set up experiments, but we also went through how to run experiments and log the results. We also showed how to analyse the results, using the Experiment UI to compare and filter runs.
+Not only did we cover how to create and set up experiments, but we also went through how to run experiments and log the results. We also showed how to analyse the results, using the experiment UI to compare and filter runs.
 
 In the next post, we'll be looking at how to select the best model, and how to deploy it. Stay tuned!

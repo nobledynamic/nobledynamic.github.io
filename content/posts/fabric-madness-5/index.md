@@ -1,7 +1,7 @@
 ---
 title: "Fabric Madness: Models"
 summary: "Our fifth and final post in the Fabric series, where we dive into model registries, which are essential for production scenarios."
-date: 2024-04-19T11:40:43Z
+date: 2024-04-29T11:40:43Z
 draft: true
 showAuthor: true
 authors:
