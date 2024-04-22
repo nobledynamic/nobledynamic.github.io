@@ -14,7 +14,7 @@ series: ["Fabric Madness"]
 series_order: 4
 ---
 
-It's no secret that Machine Learning (ML) systems require careful tuning to become truly useful, it would be an extremely rare occurance for a model to work perfectly the first time it's run!
+It's no secret that Machine Learning (ML) systems require careful tuning to become truly useful, it would be an extremely rare occurrence for a model to work perfectly the first time it's run!
 
 When first starting out on your ML journey, an easy trap to fall into is to try lots of different things to improve performance, but not recording these configurations along the way. This then makes it difficult to know which configuration (or combination of configurations) had the best performance.
 
@@ -133,7 +133,7 @@ Let's now look at the code used for training our models, which are based on the 
 In out setup, we wanted to try three different models, that used an increasing number of parameters. For each model, we also wanted to try three different learning rates (a hyperparameter that controls how much we are adjusting the weights of our network for each iteration). The goal was to find the best model and learning rate combination that would give us the best [Brier score](https://en.wikipedia.org/wiki/Brier_score) on the test set.
 
 ### The Models
-To define the model architecture, we used tensorflow, creating three simple neural networks. Here are the functions that helped define the models.
+To define the model architecture, we used TensorFlow, creating three simple neural networks. Here are the functions that helped define the models.
 
 ```python
 from tensorflow.keras.models import Sequential
@@ -179,7 +179,7 @@ input_shape = X_train_scaled_df.shape[1]
 epochs = 100
 ```
 
-After this intial setup, it was time to iterate over the models' dictionary. For each model, an experiment was created. Note how we're using the code snippet from before, where we first check if the experiment exists, and only if it doesn't do we create it. Otherwise, we just set it.
+After this initial setup, it was time to iterate over the models' dictionary. For each model, an experiment was created. Note how we're using the code snippet from before, where we first check if the experiment exists, and only if it doesn't do we create it. Otherwise, we just set it.
 
 ```python
 import mlflow
