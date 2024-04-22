@@ -1,6 +1,6 @@
 ---
 title: "Fabric Madness: Feature Engineering with pyspark"
-summary: "In part 2 of this series we dive deeper into the process of feature engineering."
+summary: "In part 2 of this series we dive deeper into the process of feature engineering, a crucial part of the development lifecycle for any Machine Learning (ML) systems."
 date: 2024-04-08T09:37:43Z
 draft: false
 showAuthor: true
