@@ -2,7 +2,7 @@
 title: "Fabric Madness: Models"
 summary: "Our fifth and final post in the Fabric series, where we dive into model registries, which are essential for production scenarios."
 date: 2024-04-29T11:40:43Z
-draft: true
+draft: false
 showAuthor: true
 authors:
   - "martimchaves"
@@ -62,7 +62,7 @@ with mlflow.start_run(run_name="logging_a_model") as run:
 
 In this code snippet, we first calculate the predictions for the training set. Then create a signature, which is essentially the input and output shape of the model. This is necessary to ensure that the model can be loaded later on.
 
-MLFlow has functions to log models made with different commonly used packages, such as [TensorFlow](https://www.tensorflow.org/), [PyTorch](https://pytorch.org/), and [scikit-learn](https://scikit-learn.org/). When `mlflow.tensorflow.log_model` is used, a folder is saved, as an artifact, attatched to the run, containing the files needed to load and run the model. In these files, the architecture along with with trained weights of the model and any other configuration necessary for reconstruction are found. This makes it possible to load the model later, either to do inference, fine-tune it, or any other regular model operations without having to re-run the original code that created it.
+MLFlow has functions to log models made with different commonly used packages, such as [TensorFlow](https://www.tensorflow.org/), [PyTorch](https://pytorch.org/), and [scikit-learn](https://scikit-learn.org/). When `mlflow.tensorflow.log_model` is used, a folder is saved, as an artifact, attached to the run, containing the files needed to load and run the model. In these files, the architecture along with with trained weights of the model and any other configuration necessary for reconstruction are found. This makes it possible to load the model later, either to do inference, fine-tune it, or any other regular model operations without having to re-run the original code that created it.
 
 The model's URI is used as a "path" to the model file, and is made up of the run ID and the name of the file used for the model. Once we have the model's URI, we can register a ML Model, using the model's URI.
 
@@ -76,7 +76,7 @@ An **ML Model** can also be registered via Fabric's UI. Model versions can be im
 
 ![Creating an ML Model using the UI. Shows mouse hovering experiment, with + New dropdown open](./images/model-1.png "Fig. 1 - Creating a ML Model using the UI")
 
-After creating an ML Model, we can import a model from an existing experiment. To do that, in a run, we have select `Save` in the `Save run as an ML Model` section.
+After creating an ML Model, we can import a model from an existing experiment. To do that, in a run, we have to select `Save` in the `Save run as an ML Model` section.
 
 ![After selecting save in the save run as ML Model section, a pop up box shows up to select the model files and the ML Model to save the files to.](./images/model-2.png "Fig. 2 - Creating a new version of the created ML Model from a run")
 
@@ -136,7 +136,7 @@ After that, we simply have to keep track of the best performing version. At the 
 
 ## Loading the Best Model
 
-After finding the best model, using it to get the final predictions can be be done using the following code snippet:
+After finding the best model, using it to get the final predictions can be done using the following code snippet:
 
 ```python
 # Load the best model
