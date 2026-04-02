@@ -6,3 +6,13 @@
 html {
     font-family: 'Open_Sans';
 }
+
+.logo svg {
+    max-width: 7rem;
+    height: auto;
+}
+
+#header-wrapper.text-white .logo svg,
+#header-wrapper.text-white .logo svg path {
+    fill: white;
+}

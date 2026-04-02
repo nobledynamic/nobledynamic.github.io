@@ -1,5 +1,28 @@
-<div class="fixed inset-x-0 pl-[24px] pr-[24px] bg-neutral dark:bg-neutral-800" style="z-index:100">
-  <div class="relative max-w-[64rem] ml-auto mr-auto">
-    {{ partial "partials/header/basic.html" . }}
+{{ if .IsHome }}
+<div id="header-wrapper" class="fixed inset-x-0 z-100 text-white">
+  <div id="menu-blur" class="absolute opacity-0 inset-x-0 top-0 h-full bg-neutral dark:bg-neutral-800 backdrop-blur-2xl shadow-2xl"></div>
+  <div class="relative m-auto leading-7 max-w-7xl px-6 sm:px-14 md:px-24 lg:px-32">
+    {{ partial "header/basic.html" . }}
   </div>
 </div>
+<script>
+  window.addEventListener('scroll', function () {
+    var scroll = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    var opacity = Math.min(scroll / 300, 1);
+    document.getElementById('menu-blur').style.opacity = opacity;
+    var header = document.getElementById('header-wrapper');
+    if (opacity > 0.5) {
+      header.classList.remove('text-white');
+    } else {
+      header.classList.add('text-white');
+    }
+  });
+</script>
+{{ else }}
+<div class="min-h-[148px]"></div>
+<div class="fixed inset-x-0 z-100 bg-neutral dark:bg-neutral-800 shadow-sm">
+  <div class="relative m-auto leading-7 max-w-7xl px-6 sm:px-14 md:px-24 lg:px-32">
+    {{ partial "header/basic.html" . }}
+  </div>
+</div>
+{{ end }}
