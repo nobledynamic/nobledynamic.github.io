@@ -1,0 +1,139 @@
+<svg viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0f1a"/>
+      <stop offset="100%" stop-color="#0d1425"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="1200" height="400" fill="url(#bg)"/>
+  
+  <!-- Subtle grid -->
+  <g opacity="0.05">
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="0.8" fill="#00e5c8"/>
+    </pattern>
+    <rect width="1200" height="400" fill="url(#grid)"/>
+  </g>
+
+  <!-- Abstract data table / grid structure - left side -->
+  <g transform="translate(80, 80)" opacity="0.85">
+    <!-- Table header -->
+    <rect x="0" y="0" width="340" height="28" rx="3" fill="#00e5c8" opacity="0.1"/>
+    <rect x="0" y="0" width="90" height="28" rx="3" fill="#00e5c8" opacity="0.08"/>
+    <text x="12" y="18" fill="#00e5c8" font-family="monospace" font-size="9" opacity="0.6">MARKET</text>
+    <text x="108" y="18" fill="#00e5c8" font-family="monospace" font-size="9" opacity="0.6">Q1</text>
+    <text x="168" y="18" fill="#00e5c8" font-family="monospace" font-size="9" opacity="0.6">Q2</text>
+    <text x="228" y="18" fill="#00e5c8" font-family="monospace" font-size="9" opacity="0.6">Q3</text>
+    <text x="288" y="18" fill="#00e5c8" font-family="monospace" font-size="9" opacity="0.6">Q4</text>
+    
+    <!-- Rows -->
+    <g opacity="0.4">
+      <rect x="0" y="34" width="340" height="24" rx="2" fill="#00e5c8" opacity="0.04"/>
+      <rect x="0" y="62" width="340" height="24" rx="2" fill="#6b5ce7" opacity="0.04"/>
+      <rect x="0" y="90" width="340" height="24" rx="2" fill="#00e5c8" opacity="0.04"/>
+      <rect x="0" y="118" width="340" height="24" rx="2" fill="#6b5ce7" opacity="0.04"/>
+      <rect x="0" y="146" width="340" height="24" rx="2" fill="#00e5c8" opacity="0.04"/>
+      <rect x="0" y="174" width="340" height="24" rx="2" fill="#6b5ce7" opacity="0.04"/>
+      <rect x="0" y="202" width="340" height="24" rx="2" fill="#00e5c8" opacity="0.04"/>
+    </g>
+    
+    <!-- Data values -->
+    <g fill="#ffffff" font-family="monospace" font-size="9" opacity="0.35">
+      <text x="12" y="50">London</text><text x="108" y="50">4.2%</text><text x="168" y="50">3.8%</text><text x="228" y="50">4.1%</text><text x="288" y="50">4.5%</text>
+      <text x="12" y="78">New York</text><text x="108" y="78">3.9%</text><text x="168" y="78">4.2%</text><text x="228" y="78">3.7%</text><text x="288" y="78">4.0%</text>
+      <text x="12" y="106">Tokyo</text><text x="108" y="106">2.1%</text><text x="168" y="106">2.3%</text><text x="228" y="106">2.0%</text><text x="288" y="106">2.4%</text>
+      <text x="12" y="134">Paris</text><text x="108" y="134">3.5%</text><text x="168" y="134">3.2%</text><text x="228" y="134">3.6%</text><text x="288" y="134">3.8%</text>
+      <text x="12" y="162">Sydney</text><text x="108" y="162">5.1%</text><text x="168" y="162">4.8%</text><text x="228" y="162">5.3%</text><text x="288" y="162">5.0%</text>
+      <text x="12" y="190">Berlin</text><text x="108" y="190">3.0%</text><text x="168" y="190">3.3%</text><text x="228" y="190">2.9%</text><text x="288" y="190">3.1%</text>
+      <text x="12" y="218">Singapore</text><text x="108" y="218">4.6%</text><text x="168" y="218">4.3%</text><text x="228" y="218">4.8%</text><text x="288" y="218">4.5%</text>
+    </g>
+    
+    <!-- Highlighted row -->
+    <rect x="0" y="34" width="340" height="24" rx="2" fill="#00e5c8" opacity="0.15" stroke="#00e5c8" stroke-width="1"/>
+  </g>
+  
+  <!-- Bar chart - center -->
+  <g transform="translate(520, 100)">
+    <g opacity="0.3">
+      <line x1="0" y1="200" x2="260" y2="200" stroke="#00e5c8" stroke-width="0.5" opacity="0.3"/>
+      <line x1="0" y1="150" x2="260" y2="150" stroke="#00e5c8" stroke-width="0.5" opacity="0.15"/>
+      <line x1="0" y1="100" x2="260" y2="100" stroke="#00e5c8" stroke-width="0.5" opacity="0.15"/>
+      <line x1="0" y1="50" x2="260" y2="50" stroke="#00e5c8" stroke-width="0.5" opacity="0.15"/>
+    </g>
+    
+    <!-- Bars -->
+    <rect x="15" y="80" width="22" height="120" rx="2" fill="#00e5c8" opacity="0.6" filter="url(#glow)"/>
+    <rect x="50" y="110" width="22" height="90" rx="2" fill="#6b5ce7" opacity="0.6" filter="url(#glow)"/>
+    <rect x="85" y="60" width="22" height="140" rx="2" fill="#00e5c8" opacity="0.6" filter="url(#glow)"/>
+    <rect x="120" y="130" width="22" height="70" rx="2" fill="#6b5ce7" opacity="0.6" filter="url(#glow)"/>
+    <rect x="155" y="50" width="22" height="150" rx="2" fill="#00e5c8" opacity="0.7" filter="url(#glow)"/>
+    <rect x="190" y="95" width="22" height="105" rx="2" fill="#6b5ce7" opacity="0.6" filter="url(#glow)"/>
+    <rect x="225" y="70" width="22" height="130" rx="2" fill="#00e5c8" opacity="0.6" filter="url(#glow)"/>
+  </g>
+  
+  <!-- Line chart - right side -->
+  <g transform="translate(850, 100)">
+    <!-- Axes -->
+    <line x1="0" y1="200" x2="280" y2="200" stroke="#00e5c8" stroke-width="0.5" opacity="0.2"/>
+    
+    <!-- Area fill -->
+    <path d="M0,180 Q35,160 70,150 T140,120 T210,90 T280,60 L280,200 L0,200 Z" fill="#6b5ce7" opacity="0.06"/>
+    
+    <!-- Line -->
+    <path d="M0,180 Q35,160 70,150 T140,120 T210,90 T280,60" fill="none" stroke="#6b5ce7" stroke-width="2" filter="url(#glow)" opacity="0.7"/>
+    
+    <!-- Second line -->
+    <path d="M0,170 Q35,165 70,160 T140,145 T210,135 T280,110" fill="none" stroke="#00e5c8" stroke-width="2" filter="url(#glow)" opacity="0.5"/>
+    
+    <!-- Data points -->
+    <g fill="#6b5ce7" opacity="0.6">
+      <circle cx="0" cy="180" r="3"/>
+      <circle cx="70" cy="150" r="3"/>
+      <circle cx="140" cy="120" r="3"/>
+      <circle cx="210" cy="90" r="3"/>
+      <circle cx="280" cy="60" r="3.5"/>
+    </g>
+    <g fill="#00e5c8" opacity="0.4">
+      <circle cx="0" cy="170" r="2.5"/>
+      <circle cx="70" cy="160" r="2.5"/>
+      <circle cx="140" cy="145" r="2.5"/>
+      <circle cx="210" cy="135" r="2.5"/>
+      <circle cx="280" cy="110" r="2.5"/>
+    </g>
+  </g>
+  
+  <!-- Connection lines between elements -->
+  <g stroke="#00e5c8" stroke-width="0.5" opacity="0.1">
+    <line x1="420" y1="160" x2="520" y2="180"/>
+    <line x1="420" y1="200" x2="520" y2="220"/>
+    <line x1="780" y1="200" x2="850" y2="220"/>
+    <line x1="780" y1="160" x2="850" y2="180"/>
+  </g>
+  
+  <!-- Download icon hint - bottom right -->
+  <g transform="translate(1120, 340)" opacity="0.25">
+    <rect x="-16" y="-12" width="32" height="24" rx="3" fill="none" stroke="#00e5c8" stroke-width="1"/>
+    <path d="M0,-5 L0,3 M-5,-1 L0,4 L5,-1" fill="none" stroke="#00e5c8" stroke-width="1.5"/>
+    <line x1="-8" y1="8" x2="8" y2="8" stroke="#00e5c8" stroke-width="1.5"/>
+  </g>
+  
+  <!-- Particles -->
+  <g opacity="0.1">
+    <circle cx="470" cy="50" r="1.5" fill="#00e5c8"/>
+    <circle cx="600" cy="70" r="1" fill="#6b5ce7"/>
+    <circle cx="750" cy="40" r="1.5" fill="#00e5c8"/>
+    <circle cx="500" cy="360" r="1" fill="#6b5ce7"/>
+    <circle cx="700" cy="380" r="1.5" fill="#00e5c8"/>
+    <circle cx="900" cy="50" r="1" fill="#6b5ce7"/>
+    <circle cx="1050" cy="370" r="1.5" fill="#00e5c8"/>
+  </g>
+</svg>

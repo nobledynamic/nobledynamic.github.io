@@ -1,0 +1,48 @@
+<section id="case-studies" style="padding-top: 5rem;">
+  <header class="text-center">
+    <h2 class="mt-5 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+      Case Studies
+    </h2>
+  </header>
+  <div style="padding-top: 3rem;">
+    {{ $section := site.GetPage "case-studies" }}
+    {{ with $section }}
+      <div class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+        {{ range .Pages }}
+          <article class="relative min-h-full overflow-hidden rounded-lg border border-neutral-300 dark:border-neutral-600">
+            {{ $featured := "" }}
+            {{ $featuredURL := "" }}
+            {{ $images := .Resources }}
+            {{ range slice "*feature*" "*cover*" "*thumbnail*" }}
+              {{ if not $featured }}{{ $featured = $images.GetMatch . }}{{ end }}
+            {{ end }}
+            {{ with $featured }}
+              {{ $featuredURL = .RelPermalink }}
+              {{ if and (ne .MediaType.SubType "svg") (eq .ResourceType "image") }}
+                {{ $featuredURL = (.Resize "600x").RelPermalink }}
+              {{ end }}
+            {{ end }}
+            {{ with $featuredURL }}
+              <div class="flex-none relative overflow-hidden thumbnail_card">
+                <img src="{{ . }}" role="presentation" loading="lazy" decoding="async" class="not-prose absolute inset-0 w-full h-full object-cover">
+              </div>
+            {{ end }}
+            <div class="p-4">
+              <header>
+                <a href="{{ .RelPermalink }}" class="not-prose before:absolute before:inset-0 decoration-primary-500 dark:text-neutral text-xl font-bold text-neutral-800 hover:underline hover:underline-offset-2">
+                  <h3>{{ .Title }}</h3>
+                </a>
+              </header>
+              {{ with .Params.industry }}
+                <span class="inline-block mt-2 text-xs font-semibold uppercase tracking-wider text-primary-600 dark:text-primary-400">{{ . }}</span>
+              {{ end }}
+              {{ with .Params.summary }}
+                <p class="mt-2 text-sm text-neutral-500 dark:text-neutral-400 line-clamp-3">{{ . }}</p>
+              {{ end }}
+            </div>
+          </article>
+        {{ end }}
+      </div>
+    {{ end }}
+  </div>
+</section>
