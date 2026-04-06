@@ -20,9 +20,10 @@
  pageRef = "posts"
  weight = 20
 
-# [[main]]
-#  name = "About"
-#  weight = 30
+[[main]]
+ name = "About Us"
+ url = "/#about"
+ weight = 30
 
 [[main]]
  name = "Contact"
@@ -49,12 +50,6 @@
   name = "Disclaimer"
   pageRef = "/disclaimer"
   weight = 20
-
-[[footer]]
-  identifier = "twitter"
-  pre = "x-twitter"
-  url = "https://twitter.com/Roger_Noble"
-  weight = 200
 
 [[footer]]
  identifier = "linkedin"

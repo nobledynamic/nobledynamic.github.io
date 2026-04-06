@@ -5,6 +5,7 @@
 
 html {
     font-family: 'Open_Sans';
+    overflow-x: clip;
 }
 
 .logo svg {
