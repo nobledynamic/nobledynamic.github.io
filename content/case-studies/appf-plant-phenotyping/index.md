@@ -4,6 +4,7 @@ summary: "Visual exploration of high-throughput plant imaging data for quality c
 industry: "Agriculture"
 date: 2026-04-06
 draft: false
+showDate: false
 ---
 
 ## Australian Plant Phenomics Facility
