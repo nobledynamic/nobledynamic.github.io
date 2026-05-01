@@ -13,8 +13,6 @@ series: ["Fabric Madness"]
 series_order: 1
 ---
 
-[//]: # "Mostly using active voice (we did...) instead of passive voice (x was done...) to sound more direct and engaging. Passive voice used when we want to give emphasis to the object (A Lakehouse was created - emphasis on the Lakehouse)"
-
 ## Introduction
 
 At the time of writing, it's basketball season in the United States, and there is a lot of excitement around the men's and women's college basketball tournaments. The format is single elimination, so over the course of several rounds, teams are eliminated, till eventually we get a champion. This tournament is not only a showcase of upcoming basketball talent, but, more importantly, a fertile ground for data enthusiasts like us to analyze trends and predict outcomes.
